@@ -1,5 +1,5 @@
 <template>
-  <div class="section-header text-center">
+  <div class="section-header">
     <h2 class="title">{{ title }}</h2>
     <p>
       {{ pera }}
@@ -10,6 +10,6 @@
 
 <script>
 export default {
-  props: ["title", "pera"],
+  props: ["title", "pera", 'style'],
 };
 </script>

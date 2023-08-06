@@ -15,6 +15,9 @@ export default {
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Georama:wght@100;300;400;500;600;700&family=Lato:wght@400;700&display=swap");
+@import url("https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css");
+
+
 .theme-one {
   color: #3f58e3 !important;
 }
@@ -317,15 +320,18 @@ h3 {
 }
 
 h4 {
-  font-size: 24px;
+  font-size: 22px;
+  font-weight: 500;
 }
 
 h5 {
-  font-size: 20px;
+  font-size: 18px;
+  font-weight: 500;
 }
 
 h6 {
   font-size: 18px;
+  font-weight: 500;
 }
 
 p {

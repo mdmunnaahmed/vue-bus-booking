@@ -4,149 +4,23 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-6 col-md-10">
-          <div class="section-header">
-            <h2 class="title">Our Popular <span> Bus Routes</span></h2>
-            <p>
-              Have a look at our popular bus route. where your want to go? Just
-              choose a Bus and get a ticket for your great journey. laboriosam
-              molestiae vol!
-            </p>
-          </div>
+          <section-header
+            v-for="sec in section"
+            :key="sec.title"
+            :title="sec.title"
+            :pera="sec.pera"
+          ></section-header>
         </div>
       </div>
       <div class="row justify-content-between gy-4">
-        <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6">
-          <a href="#0" class="route-item">
-            <div class="route-inner">
-              <div class="route-icon">
-                <i class="las la-map-marker"></i>
-              </div>
-              <div class="route-content">
-                <h5 class="title">Dhaka Buses</h5>
-                <ul class="route-to">
-                  <li>Gazipur,</li>
-                  <li>Mirpur,</li>
-                  <li>Gabtoli</li>
-                </ul>
-              </div>
-            </div>
-            <div class="icon">
-              <i class="las la-exchange-alt"></i>
-            </div>
-            <div class="route-inner">
-              <div class="route-icon">
-                <i class="lar la-dot-circle"></i>
-              </div>
-              <div class="route-content">
-                <h5 class="title">To :</h5>
-                <ul class="route-to">
-                  <li>Rajbari,</li>
-                  <li>Kushtia,</li>
-                  <li>Jinaidah</li>
-                </ul>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6">
-          <a href="#0" class="route-item">
-            <div class="route-inner">
-              <div class="route-icon">
-                <i class="las la-map-marker"></i>
-              </div>
-              <div class="route-content">
-                <h5 class="title">Kushtia Buses</h5>
-                <ul class="route-to">
-                  <li>Gazipur,</li>
-                  <li>Mirpur,</li>
-                  <li>Gabtoli</li>
-                </ul>
-              </div>
-            </div>
-            <div class="icon">
-              <i class="las la-exchange-alt"></i>
-            </div>
-            <div class="route-inner">
-              <div class="route-icon">
-                <i class="lar la-dot-circle"></i>
-              </div>
-              <div class="route-content">
-                <h5 class="title">To :</h5>
-                <ul class="route-to">
-                  <li>Rajbari,</li>
-                  <li>Kushtia,</li>
-                  <li>Jinaidah</li>
-                </ul>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6">
-          <a href="#0" class="route-item">
-            <div class="route-inner">
-              <div class="route-icon">
-                <i class="las la-map-marker"></i>
-              </div>
-              <div class="route-content">
-                <h5 class="title">Khulna Buses</h5>
-                <ul class="route-to">
-                  <li>Gazipur,</li>
-                  <li>Mirpur,</li>
-                  <li>Gabtoli</li>
-                </ul>
-              </div>
-            </div>
-            <div class="icon">
-              <i class="las la-exchange-alt"></i>
-            </div>
-            <div class="route-inner">
-              <div class="route-icon">
-                <i class="lar la-dot-circle"></i>
-              </div>
-              <div class="route-content">
-                <h5 class="title">To :</h5>
-                <ul class="route-to">
-                  <li>Rajbari,</li>
-                  <li>Kushtia,</li>
-                  <li>Jinaidah</li>
-                </ul>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6">
-          <a href="#0" class="route-item">
-            <div class="route-inner">
-              <div class="route-icon">
-                <i class="las la-map-marker"></i>
-              </div>
-              <div class="route-content">
-                <h5 class="title">Chittagong Buses</h5>
-                <ul class="route-to">
-                  <li>Gazipur,</li>
-                  <li>Mirpur,</li>
-                  <li>Gabtoli</li>
-                </ul>
-              </div>
-            </div>
-            <div class="icon">
-              <i class="las la-exchange-alt"></i>
-            </div>
-            <div class="route-inner">
-              <div class="route-icon">
-                <i class="lar la-dot-circle"></i>
-              </div>
-              <div class="route-content">
-                <h5 class="title">To :</h5>
-                <ul class="route-to">
-                  <li>Rajbari,</li>
-                  <li>Kushtia,</li>
-                  <li>Jinaidah</li>
-                </ul>
-              </div>
-            </div>
-          </a>
-        </div>
+        <the-route
+          v-for="route in routes"
+          :key="route.id"
+          :pickTitle="route.pickTitle"
+          :pickLocations="route.pickLocations"
+          :desTitle="route.desTitle"
+          :desLocations="route.desLocations"
+        ></the-route>
       </div>
     </div>
   </section>
@@ -155,7 +29,24 @@
 
 
 <script>
+import TheRoute from "../TheRoute.vue";
+import SectionHeader from "./SectionHeader.vue";
 export default {
-  
-}
+  components: {
+    TheRoute,
+    SectionHeader
+  },
+
+  computed: {
+    routes() {
+      return this.$store.getters["route/routes"];
+    },
+    section() {
+      return this.$store.getters["route/section"];
+    },
+  },
+};
 </script>
+
+<style scoped>
+</style>

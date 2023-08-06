@@ -15,19 +15,19 @@ export default {
       process: [
         {
           id: 1,
-          icon: 'fa-solid fa-user-secret',
+          icon: 'las la-search',
           title: "Search Your Bus",
           pera: "Choose your origin, destination,Just choose a Bus journey dates and search for buses",
         },
         {
           id: 2,
-          icon: 'fa-solid fa-user-secret',
+          icon: 'las la-crosshairs',
           title: "Choose The Ticket",
           pera: "Choose your origin, destination,Just choose a Bus journey dates and search for buses",
         },
         {
           id: 3,
-          icon: 'fa-solid fa-user-secret',
+          icon: 'las la-receipt',
           title: "Pay Bill",
           pera: "Choose your origin, destination,Just choose a Bus journey dates and search for buses",
         },
