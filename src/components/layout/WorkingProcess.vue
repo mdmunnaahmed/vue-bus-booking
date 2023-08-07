@@ -1,6 +1,6 @@
 <template>
   <!-- Working Process Section Starts Here -->
-  <section class="working-process padding-top padding-bottom">
+  <section class="working-process padding-top">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-6 col-md-10">

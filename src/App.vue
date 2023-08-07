@@ -1,13 +1,16 @@
 <template>
   <the-header></the-header>
   <router-view></router-view>
+  <the-footer></the-footer>
 </template>
 
 <script>
 import TheHeader from "./components/layout/TheHeader.vue";
+import TheFooter from "@/components/layout/TheFooter.vue";
 export default {
   components: {
     TheHeader,
+    TheFooter,
   },
 };
 </script>
@@ -16,7 +19,6 @@ export default {
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Georama:wght@100;300;400;500;600;700&family=Lato:wght@400;700&display=swap");
 @import url("https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css");
-
 
 .theme-one {
   color: #3f58e3 !important;
@@ -1099,5 +1101,35 @@ i {
   font-size: 13px !important;
   font-weight: 600;
   word-spacing: 4px;
+}
+
+.social-icons {
+  margin-top: 15px;
+  margin-left: -5px;
+}
+
+.social-icons li a {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin: 0 5px;
+  font-size: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.social-icons li a:hover {
+  background: #0e9e4d;
+  color: #fff;
+  border-color: #0e9e4d;
+}
+
+.social-icons li a:hover i {
+  color: #fff;
+  font-size: 20px;
+}
+
+.social-icons li a i {
+  -webkit-transition: all ease 0.3s;
+  transition: all ease 0.3s;
 }
 </style>
