@@ -1,20 +1,30 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import HomePage from './pages/HomePage.vue';
-import AboutPage from './pages/AboutPage.vue';
-import NotFound from './pages/NotFound.vue'
+import { createRouter, createWebHistory } from "vue-router";
+import HomePage from "./pages/HomePage.vue";
+import AboutPage from "./pages/AboutPage.vue";
+import NotFound from "./pages/NotFound.vue";
+import BlogPage from "./pages/BlogPage.vue";
+import BlogDetails from "./pages/BlogDetails.vue";
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: '/',
+      path: "/",
       component: HomePage,
     },
     {
-      path: '/about',
+      path: "/about",
       component: AboutPage,
     },
     {
-      path: '/:notFound(.*)',
+      path: "/blog",
+      component: BlogPage,
+    },
+    {
+      path: "/blog/:id",
+      component: BlogDetails,
+    },
+    {
+      path: "/:notFound(.*)",
       component: NotFound,
     },
   ],

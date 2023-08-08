@@ -10,6 +10,6 @@
 
 <script>
 export default {
-  props: ["title", "pera", 'style'],
+  props: ["title", "pera"],
 };
 </script>

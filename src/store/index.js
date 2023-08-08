@@ -6,6 +6,7 @@ import aminitiesModule from "./modules/aminities/index.js";
 import packagesModule from "./modules/packages/index.js";
 import postsModule from "./modules/posts/index.js";
 import footerModule from "./modules/footer/index.js";
+import aboutModule from "./modules/about/index.js";
 
 const store = createStore({
   modules: {
@@ -16,6 +17,7 @@ const store = createStore({
     packages: packagesModule,
     posts: postsModule,
     footer: footerModule,
+    about: aboutModule,
   },
 });
 

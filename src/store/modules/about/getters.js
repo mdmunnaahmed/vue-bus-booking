@@ -1,5 +1,5 @@
 export default {
-  footer(state) {
-    return state.footer;
+  about(state) {
+    return state.about;
   },
 };

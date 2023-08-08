@@ -6,34 +6,19 @@
         <div class="row mb-4 mb-md-5 gy-4">
           <div class="col-lg-7 col-xl-6">
             <div class="about-content">
-              <div class="section-header">
-                <h2 class="title">Know Few Words <span>About Autobus</span></h2>
-                <p>
-                  Lorem Lorem ipsum dolor, sit amet consectetur adipisicing
-                  elit. Nulla sit reprehenderit non voluptas quam quod facilis,
-                  doloribus impedit magni. Numquam ipsum placeat ullam alias
-                  temporibus non quas aperiam odio pariatur.
-                </p>
+              <div
+                class="section-header"
+                v-for="(ab, index) in about"
+                :key="index"
+              >
+                <h2 class="title">{{ ab.mainTitle }}</h2>
+                <p>{{ ab.mainPera }}</p>
               </div>
-              <p>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eos
-                eveniet inventore blanditiis maxime doloremque minima. Quisquam,
-                ex! Architecto laudantium culpa cupiditate hic facere est magni,
-                possimus repudiandae, rerum eius omnis.lore Lorem ipsum dolor
-                sit amet consectetur adipisicing elit. Doloremque excepturi sed
-                possimus recusandae temporibus tempore, aspernatur, autem sequi
-                natus iste fugit. Eaque vero temporibus illum quis beatae quam
-                officia ad.ri sed possimus recusandae temporibus tempore,
-                aspernatur, autem sequi natus iste fugit. Eaque vero temporibus
-                sed possimus recusandae temporibus tempore, aspernatur, autem
-                sequi natus iste fugit. Eaque vero temporibus illum quis beatae
-                quam officia ad.
-              </p>
             </div>
           </div>
           <div class="col-lg-5 col-xl-6">
-            <div class="about-thumb">
-              <img src="" alt="thumb" />
+            <div class="about-thumb" v-for="(ab, index) in about" :key="index">
+              <img :src="require(`@/assets/thumb/${ab.thumb}`)" alt="thumb" />
             </div>
           </div>
         </div>
@@ -91,7 +76,11 @@
 
 <script>
 export default {
-  components: {},
+  computed: {
+    about() {
+      return this.$store.getters["about/about"];
+    },
+  },
 };
 </script>
 

@@ -2,7 +2,7 @@
 <template>
   <!-- Banner Section Starts Here -->
   <section class="banner-section">
-    <img src="../../assets/images/bg/banner3.png" alt="" class="banner-shape" />
+    <img src="../../assets/bg/banner3.png" alt="" class="banner-shape" />
     <div class="container">
       <div
         class="banner-wrapper"
@@ -138,7 +138,7 @@
       </div>
     </div>
     <div class="shape">
-      <img src="../../assets/images/bg/bus.png" alt="bg" />
+      <img src="../../assets/bg/bus.png" alt="bg" />
     </div>
   </section>
   <!-- Banner Section Ends Here -->
