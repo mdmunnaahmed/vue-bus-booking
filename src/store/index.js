@@ -7,6 +7,8 @@ import packagesModule from "./modules/packages/index.js";
 import postsModule from "./modules/posts/index.js";
 import footerModule from "./modules/footer/index.js";
 import aboutModule from "./modules/about/index.js";
+import faqsModule from "./modules/faq/index.js";
+import contactModule from "./modules/contact/index.js";
 
 const store = createStore({
   modules: {
@@ -18,6 +20,8 @@ const store = createStore({
     posts: postsModule,
     footer: footerModule,
     about: aboutModule,
+    faqs: faqsModule,
+    contact: contactModule,
   },
 });
 
