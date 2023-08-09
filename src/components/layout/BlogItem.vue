@@ -6,7 +6,7 @@
     <div class="post-content">
       <span class="date"><i class="las la-calendar-check"></i> {{ date }}</span>
       <h4 class="title">
-        <router-link :to="blogDetails">{{ title }}</router-link>
+        <router-link :to="blogDetailsLink">{{ title }}</router-link>
       </h4>
       <p>
         {{ pera }}
@@ -23,9 +23,7 @@
           </div>
         </li>
         <li>
-          <router-link :to="blogDetails"
-            ><i class="las la-share"></i> Share</router-link
-          >
+          <router-link :to="blogDetailsLink"><i class="las la-share"></i> Share</router-link>
         </li>
       </ul>
     </div>
@@ -36,11 +34,10 @@
 
 <script>
 export default {
-  props: ["thumb", "title", "date", "pera", "comments", "seen",],
+  props: ['id', "thumb", "title", "date", "pera", "comments", "seen",],
   computed: {
-    blogDetails() {
-      const title = this.title.replace(/\s+/g, "-");
-      return this.$route.path + "/" + title.toLowerCase();
+    blogDetailsLink() {
+      return this.$route.path + '/' + this.id
     },
   },
 };

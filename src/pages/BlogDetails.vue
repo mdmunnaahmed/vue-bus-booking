@@ -1,35 +1,210 @@
 <!-- components/BlogDetails.vue -->
 <template>
-  <div v-for="(post, index) in posts" :key="index">
-    <h2>{{ post.title }}</h2>
-    <div>{{ post.content }}</div>
-  </div>
+  <!-- Blog Details Section Starts Here -->
+  <section class="blog-details padding-top padding-bottom">
+    <div class="container">
+      <div class="row gy-5">
+        <div class="col-lg-8">
+          <div class="post-thumb mb-4">
+            <img :src="require(`@/assets/blog/${thumb}`)" alt="thumb">
+          </div>
+          <div class="post-details-content">
+            <div class="content-inner">
+              <ul class="meta-post mb-2 gap-4">
+                <li>
+                  <i class="las la-calendar-check"></i>
+                  <span>{{ date }}</span>
+                </li>
+                <li>
+                  <div>
+                    <i class="las la-comments"></i>
+                    {{ comments }} Comments
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <i class="las la-eye"></i>
+                    {{ seen }}
+                  </div>
+                </li>
+                <li>
+                  <i class="las la-tags"></i>
+                  <span><a href="#0">Travel</a></span>
+                </li>
+              </ul>
+              <h3 class="title mb-2 mt-2">{{ detailsTitle }}</h3>
+              <p class="blog-details-pera">
+                {{ detailsPera }}
+              </p>
+              <ul class="info mt-4">
+                <li><i class="las la-check me-1 text--base"></i> Some people do not understand why you should have to</li>
+                <li><i class="las la-check me-1 text--base"></i> tempora repellendus explicabo voluptate labore minus?
+                </li>
+                <li><i class="las la-check me-1 text--base"></i> A consectetur adipisicing elit. Debitis quidem,</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+          <div class="blog-sidebar">
+            <div class="sidebar-item">
+              <div class="latest-post-wrapper item-inner">
+                <h5 class="title">Latest Post</h5>
+                <div class="lastest-post-item">
+                  <div class="thumb">
+                    <!-- <img src="./assets/images/blog/item3.jpg" alt="blog"> -->
+                  </div>
+                  <div class="content">
+                    <h6 class="title"><a href="#0">France Prepares toding Stake Its Place in World </a></h6>
+                    <ul class="meta-post">
+                      <li>
+                        <span>Post by</span>
+                        <a href="#0">Admin</a>
+                      </li>
+                      <li>
+                        <span>25 May 2020</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="lastest-post-item">
+                  <div class="thumb">
+                    <!-- <img src="./assets/images/blog/item2.jpg" alt="blog"> -->
+                  </div>
+                  <div class="content">
+                    <h6 class="title"><a href="#0">France Prepares toding Stake Its Place in World </a></h6>
+                    <ul class="meta-post">
+                      <li>
+                        <span>Post by</span>
+                        <a href="#0">Admin</a>
+                      </li>
+                      <li>
+                        <span>25 May 2020</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="lastest-post-item">
+                  <div class="thumb">
+                    <!-- <img src="./assets/images/blog/item1.jpg" alt="blog"> -->
+                  </div>
+                  <div class="content">
+                    <h6 class="title"><a href="#0">France Prepares toding Stake Its Place in World </a></h6>
+                    <ul class="meta-post">
+                      <li>
+                        <span>Post by</span>
+                        <a href="#0">Admin</a>
+                      </li>
+                      <li>
+                        <span>25 May 2020</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="lastest-post-item">
+                  <div class="thumb">
+                    <!-- <img src="./assets/images/blog/item2.jpg" alt="blog"> -->
+                  </div>
+                  <div class="content">
+                    <h6 class="title"><a href="#0">France Prepares toding Stake Its Place in World </a></h6>
+                    <ul class="meta-post">
+                      <li>
+                        <span>Post by</span>
+                        <a href="#0">Admin</a>
+                      </li>
+                      <li>
+                        <span>25 May 2020</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Blog Details Section Ends Here -->
 </template>
 
 <script>
 export default {
-  props: ["thumb", "title", "date", "pera", "comments", "seen",],
+  props: ['id'],
   data() {
     return {
       selectedBlog: null,
-      id: '',
     };
   },
   computed: {
-    // posts() {
-    //   const posts = this.$store.getters["posts/posts"];
-    // },
+    thumb() {
+      return this.selectedBlog.thumb
+    },
+    detailsTitle() {
+      return this.selectedBlog.title
+    },
+    detailsPera() {
+      return this.selectedBlog.pera
+    },
+    seen() {
+      return this.selectedBlog.seen
+    },
+    comments() {
+      return this.selectedBlog.comments
+    },
+    date() {
+      return this.selectedBlog.date
+    },
+    // randomPosts() {
+    //   const posts = this.$store.getters["posts/posts"]
+    // }
   },
   created() {
     this.selectedBlog = this.$store.getters["posts/posts"].find(
       (post) => post.id === this.id
     );
+    console.log(this.selectedBlog);
   },
 };
 </script>
 
 
 <style scoped>
+.info {
+  gap: 5px;
+}
+
+.info li {
+  padding: 0;
+}
+
+.meta-post {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  border-top: 1px solid rgba(27, 39, 61, 0.1);
+  margin-top: 15px;
+  padding-top: 5px;
+  -webkit-transition: all ease .3s;
+  transition: all ease .3s;
+}
+
+.meta-post li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.meta-post li i {
+  margin-right: 5px;
+  color: #0e9e4d;
+}
+
 .blog-details {
   overflow: initial !important;
 }
@@ -258,5 +433,4 @@ export default {
   background: #0e9e4d;
   border-color: #0e9e4d;
   color: #fff;
-}
-</style>
+}</style>

@@ -22,6 +22,7 @@ const router = createRouter({
     {
       path: "/blog/:id",
       component: BlogDetails,
+      props: true,
     },
     {
       path: "/:notFound(.*)",
