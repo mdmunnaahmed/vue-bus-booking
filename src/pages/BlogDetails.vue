@@ -49,71 +49,20 @@
           <div class="blog-sidebar">
             <div class="sidebar-item">
               <div class="latest-post-wrapper item-inner">
-                <h5 class="title">Latest Post</h5>
-                <div class="lastest-post-item">
+                <h5 class="title mb-5">Latest Post</h5>
+                <div class="lastest-post-item" v-for="(random, index) in randomItems" :key="index">
                   <div class="thumb">
-                    <!-- <img src="./assets/images/blog/item3.jpg" alt="blog"> -->
+                    <img :src="require(`@/assets/blog/${random.thumb}`)" alt="blog">
                   </div>
                   <div class="content">
-                    <h6 class="title"><a href="#0">France Prepares toding Stake Its Place in World </a></h6>
+                    <h6 class="title" @click="updateBlog"><router-link :to="random.id">{{ random.title }}
+                      </router-link></h6>
                     <ul class="meta-post">
                       <li>
-                        <span>Post by</span>
-                        <a href="#0">Admin</a>
+                        <span>Post by</span> Admin
                       </li>
                       <li>
-                        <span>25 May 2020</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="lastest-post-item">
-                  <div class="thumb">
-                    <!-- <img src="./assets/images/blog/item2.jpg" alt="blog"> -->
-                  </div>
-                  <div class="content">
-                    <h6 class="title"><a href="#0">France Prepares toding Stake Its Place in World </a></h6>
-                    <ul class="meta-post">
-                      <li>
-                        <span>Post by</span>
-                        <a href="#0">Admin</a>
-                      </li>
-                      <li>
-                        <span>25 May 2020</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="lastest-post-item">
-                  <div class="thumb">
-                    <!-- <img src="./assets/images/blog/item1.jpg" alt="blog"> -->
-                  </div>
-                  <div class="content">
-                    <h6 class="title"><a href="#0">France Prepares toding Stake Its Place in World </a></h6>
-                    <ul class="meta-post">
-                      <li>
-                        <span>Post by</span>
-                        <a href="#0">Admin</a>
-                      </li>
-                      <li>
-                        <span>25 May 2020</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="lastest-post-item">
-                  <div class="thumb">
-                    <!-- <img src="./assets/images/blog/item2.jpg" alt="blog"> -->
-                  </div>
-                  <div class="content">
-                    <h6 class="title"><a href="#0">France Prepares toding Stake Its Place in World </a></h6>
-                    <ul class="meta-post">
-                      <li>
-                        <span>Post by</span>
-                        <a href="#0">Admin</a>
-                      </li>
-                      <li>
-                        <span>25 May 2020</span>
+                        <span>{{ random.date }}</span>
                       </li>
                     </ul>
                   </div>
@@ -155,15 +104,36 @@ export default {
     date() {
       return this.selectedBlog.date
     },
-    // randomPosts() {
-    //   const posts = this.$store.getters["posts/posts"]
-    // }
+    blogDetailsLink() {
+      return this.$route.path + '/' + this.id
+    },
+
+    randomItems() {
+      const allItems = Object.values(this.$store.getters["posts/posts"]);
+      const randomSubset = [];
+
+      while (randomSubset.length < 4 && allItems.length > 0) {
+        const randomIndex = Math.floor(Math.random() * allItems.length);
+        randomSubset.push(allItems.splice(randomIndex, 1)[0]);
+      }
+
+      return randomSubset;
+    },
+
   },
+  methods: {
+    updateBlog() {
+      this.selectedBlog = this.$store.getters["posts/posts"].find(
+        (post) => post.id === this.id
+      )
+    }
+  },
+
   created() {
     this.selectedBlog = this.$store.getters["posts/posts"].find(
       (post) => post.id === this.id
     );
-    console.log(this.selectedBlog);
+
   },
 };
 </script>
@@ -433,4 +403,5 @@ export default {
   background: #0e9e4d;
   border-color: #0e9e4d;
   color: #fff;
-}</style>
+}
+</style>
