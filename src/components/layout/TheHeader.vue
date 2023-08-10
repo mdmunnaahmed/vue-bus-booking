@@ -70,7 +70,7 @@
               <router-link to="#0">Booking</router-link>
               <ul class="sub-menu">
                 <li>
-                  <router-link to="/">Bus Ticket</router-link>
+                  <router-link to="/bus-ticket">Bus Ticket</router-link>
                 </li>
                 <li>
                   <router-link to="/">Reserve Bus</router-link>
@@ -87,7 +87,7 @@
               <router-link to="#0">Pages</router-link>
               <ul class="sub-menu">
                 <li>
-                  <router-link to="/">Dashboard</router-link>
+                  <router-link to="/dashboard">Dashboard</router-link>
                 </li>
                 <li>
                   <router-link to="/login">Sign In</router-link>

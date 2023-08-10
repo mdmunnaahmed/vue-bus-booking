@@ -1,5 +1,6 @@
 <template>
-    <inner-banner v-for="con in contactPage" :key="con.slug" :title="con.title" :slug="con.slug" :bg="con.bg"></inner-banner>
+    <inner-banner v-for="con in contactPage" :key="con.slug" :title="con.title" :slug="con.slug"
+        :bg="con.bg"></inner-banner>
 
     <!-- Contact Section Starts Here-->
     <section class="contact-section padding-top padding-bottom overflow-hidden section-bg">
@@ -8,101 +9,143 @@
                 <div class="contact-info-wrapper">
                     <h3 class="title">Let's get in touch</h3>
                     <p>We are open for any suggestion or just to have a chat</p>
-                    <div class="info-item">
+                    <div class="info-item" v-for="info in contactInfo" :key="info.phone">
                         <div class="icon">
-                            <i class="flaticon-location"></i>
+                            <i class="las la-map-pin"></i>
                         </div>
                         <div class="content">
-                            Address : 420 West Bengla Road
-                            Suite Dhaka 1209
+                            {{ info.addr }}
                         </div>
                     </div>
-                    <div class="info-item">
+                    <div class="info-item" v-for="info in contactInfo" :key="info.phone">
                         <div class="icon">
-                            <i class="flaticon-call"></i>
+                            <i class="las la-phone"></i>
                         </div>
                         <div class="content">
-                            <a href="tel:02345">+98 934 328092</a>
+                            <a href="tel:02345">{{ info.phone }}</a>
                         </div>
                     </div>
-                    <div class="info-item">
+                    <div class="info-item" v-for="info in contactInfo" :key="info.phone">
                         <div class="icon">
-                            <i class="flaticon-envelope"></i>
+                            <i class="las la-envelope"></i>
                         </div>
                         <div class="content">
-                            <a href="mailto:msdyuteorte@gmail.com">myjuddttoasd@gmail.com</a>
+                            <a href="mailto:msdyuteorte@gmail.com">{{ info.email }}</a>
                         </div>
                     </div>
                 </div>
                 <div class="contact-form-wrapper">
                     <h4 class="title">Have any Questions?</h4>
-                    <form class="contact-form row gy-3">
-                        <div class=" col-xl-6">
+                    <form class="contact-form row gy-3" @submit.prevent="submitForm">
+                        <div class="col-xl-6">
                             <div class="form--group">
                                 <label for="name">Name <span>*</span></label>
-                                <input id="name" type="text" class="form--control" required placeholder="Name">
+                                <input id="name" type="text" class="form--control" placeholder="Name" v-model.trim="name" />
                             </div>
                         </div>
-                        <div class=" col-xl-6">
+                        <div class="col-xl-6">
                             <div class="form--group">
                                 <label for="email">Email <span>*</span></label>
-                                <input id="email" type="email" class="form--control" required placeholder="Email">
+                                <input id="email" type="email" class="form--control" placeholder="Email" v-model.trim="email" />
                             </div>
                         </div>
-                        <div class=" col-xl-6">
+                        <div class="col-xl-6">
                             <div class="form--group">
                                 <label for="num">Phone Number <span>*</span></label>
-                                <input id="num" type="tel" class="form--control" required placeholder="Phone Number">
+                                <input id="num" type="tel" class="form--control" placeholder="Phone Number"
+                                    v-model.number="phone" />
                             </div>
                         </div>
-                        <div class=" col-xl-6">
+                        <div class="col-xl-6">
                             <div class="form--group">
                                 <label for="addr">Address <span>*</span></label>
-                                <input id="addr" type="text" class="form--control" required placeholder="Address">
+                                <input id="addr" type="text" class="form--control" placeholder="Address"
+                                    v-model.trim="address" />
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <div class="form--group">
                                 <label for="msg">Your Message <span>*</span></label>
-                                <textarea id="msg" class="form--control" placeholder="Message"></textarea>
+                                <textarea id="msg" class="form--control" placeholder="Message" v-model.trim="message"></textarea>
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <div class="form--group">
-                                <button class="contact-button">Send Us Message</button>
+                                <button class="contact-button">
+                                    Send Us Message
+                                </button>
                             </div>
                         </div>
                     </form>
+                    <p class="text--danger" v-if="!formIsValid">Invaild Form</p>
                 </div>
             </div>
         </div>
     </section>
     <!-- Contact Section Ends Here-->
 
-
     <!-- Map Section Starts Here-->
     <div class="map-wrapper">
         <iframe class="map"
             src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d233554.83484850885!2d90.45326398634062!3d23.84368125869724!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sbd!4v1629630584040!5m2!1sen!2sbd"
-            style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            style="border: 0" allowfullscreen="" loading="lazy"></iframe>
     </div>
     <!-- Map Section Ends Here-->
 </template>
 
 <script>
-import InnerBanner from '@/components/layout/InnerBanner.vue';
+import InnerBanner from "@/components/layout/InnerBanner.vue";
 export default {
     components: {
-        InnerBanner
+        InnerBanner,
+    },
+    data() {
+        return {
+            formIsValid: true,
+            name: "",
+            email: "",
+            phone: "",
+            address: "",
+            message: "",
+        };
+    },
+    methods: {
+        submitForm() {
+            this.formIsValid = true;
+            if (
+                this.name === '' ||
+                this.email === '' ||
+                !this.email.includes('@') ||
+                this.phone === '' ||
+                this.address === '' ||
+                this.message === ''
+            ) {
+                this.formIsValid = false;
+                return;
+            }
+            this.$store.dispatch('contact/addContact', {
+                name: this.name,
+                email: this.email,
+                phone: this.phone,
+                address: this.address,
+                message: this.message,
+            })
+            console.log(this.showContacts);
+        },
     },
     computed: {
         contactPage() {
-            return this.$store.getters['contact/contactPage']
+            return this.$store.getters["contact/contactPage"];
+        },
+        contactInfo() {
+            return this.$store.getters["contact/contactInfo"];
+        },
+        showContacts() {
+            return this.$store.getters['contact/contacts'];
         }
-    }
-}
+    },
+};
 </script>
-
 
 <style scoped>
 .contact-wrapper {
@@ -213,7 +256,7 @@ export default {
     height: 100%;
     left: 0;
     top: 0;
-    background: rgba(27, 39, 61, 0.4);
+    background: rgba(27, 39, 61, 0.9);
 }
 
 .contact-info-wrapper * {

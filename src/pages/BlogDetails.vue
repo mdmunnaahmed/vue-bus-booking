@@ -133,7 +133,6 @@ export default {
     this.selectedBlog = this.$store.getters["posts/posts"].find(
       (post) => post.id === this.id
     );
-
   },
 };
 </script>

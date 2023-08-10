@@ -9,6 +9,7 @@ import footerModule from "./modules/footer/index.js";
 import aboutModule from "./modules/about/index.js";
 import faqsModule from "./modules/faq/index.js";
 import contactModule from "./modules/contact/index.js";
+import ticketModule from './modules/ticket/index.js'
 
 const store = createStore({
   modules: {
@@ -22,6 +23,7 @@ const store = createStore({
     about: aboutModule,
     faqs: faqsModule,
     contact: contactModule,
+    ticket: ticketModule,
   },
 });
 

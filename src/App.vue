@@ -994,9 +994,7 @@ i {
   position: absolute;
   padding: 5px;
   left: 5px;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  transform: translateY(-50%);
+  top: 5px;
   font-size: 20px;
   color: #0e9e4d;
 }

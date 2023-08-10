@@ -7,6 +7,7 @@ import BlogDetails from "./pages/BlogDetails.vue";
 import TheSuggestions from "./pages/TheSuggestions.vue";
 import FaqPage from '@/pages/FaqPage.vue'
 import ContactPage from '@/pages/ContactPage.vue'
+import TicketPage from '@/pages/TicketPage'
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -25,6 +26,10 @@ const router = createRouter({
     {
       path: "/suggestions",
       component: TheSuggestions,
+    },
+    {
+      path: "/bus-ticket",
+      component: TicketPage,
     },
     {
       path: "/faq",
