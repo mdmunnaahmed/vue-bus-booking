@@ -1,9 +1,6 @@
 <template>
   <!-- Ticket Search Starts -->
-  <div
-    class="ticket-search-bar bg_img padding-top"
-    style="background: url(../assets/bg/inner.jpg) left center"
-  >
+  <div class="ticket-search-bar bg_img padding-top">
     <div class="container">
       <div class="bus-search-header">
         <form
@@ -558,30 +555,32 @@
                   <div class="col-lg-6 col-md-5">
                     <div class="seat-overview-wrapper">
                       <div class="boarding-point">
-                        <select>
-                          <option value="01">Boarding Point</option>
-                          <option value="01">
-                            Mon, 16 May Gaptoli (08:30am)
-                          </option>
-                          <option value="01">
-                            Mon, 16 May Mohakhali (09:30am)
-                          </option>
-                          <option value="01">
-                            Mon, 16 May Jatrabari (08:00am)
+                        <select
+                          class="form-select form--control"
+                          v-model="boadingPoint"
+                        >
+                          <option value="1">Boarding Point</option>
+                          <option
+                            v-for="(boading, index) in ticket.boadings"
+                            :key="index"
+                            :value="boading.stand + boading.time"
+                          >
+                            {{ boading.stand }} {{ boading.time }}
                           </option>
                         </select>
                       </div>
                       <div class="destination-point">
-                        <select>
-                          <option value="01">Destination Point</option>
-                          <option value="01">
-                            Mon, 16 May Gaptoli (08:30am)
-                          </option>
-                          <option value="01">
-                            Mon, 16 May Mohakhali (09:30am)
-                          </option>
-                          <option value="01">
-                            Mon, 16 May Jatrabari (08:00am)
+                        <select
+                          class="form-select form--control"
+                          v-model="droppingPoint"
+                        >
+                          <option value="1">Destination Point</option>
+                          <option
+                            v-for="(dropping, index) in ticket.droppings"
+                            :key="index"
+                            :value="dropping.stand + dropping.time"
+                          >
+                            {{ dropping.stand }} {{ dropping.time }}
                           </option>
                         </select>
                       </div>
@@ -600,7 +599,7 @@
                         </li>
                         <li class="pt-0">
                           <p v-if="overSelected" class="text--danger">
-                            You can't select more than 4 seats a once
+                            You can't select more than 4 seats at once
                           </p>
                         </li>
                       </ul>
@@ -611,14 +610,21 @@
                         </li>
                         <li class="fare">
                           <h6 class="title">Total</h6>
-                          <span class="value"
+                          <span class="value fw-semibold text--success"
                             >$ {{ selectedSeats.length * ticket.fare }}</span
                           >
                         </li>
                       </ul>
                       <button
                         class="book-bus-btn"
-                        :class="selectedSeats.length <= 0 ? 'disabled' : ''"
+                        :class="
+                          selectedSeats.length <= 0 ||
+                          boadingPoint == 1 ||
+                          droppingPoint == 1
+                            ? 'disabled'
+                            : ''
+                        "
+                        @click="submitTicket"
                       >
                         Continue
                       </button>
@@ -641,9 +647,11 @@ export default {
     return {
       isSelected: false,
       isSeatVisible: false,
+      overSelected: false,
       inputValue: "",
       selectedSeats: [],
-      overSelected: false,
+      boadingPoint: 1,
+      droppingPoint: 1,
       suggestionsArray: [
         {
           id: 1,
@@ -653,6 +661,11 @@ export default {
         },
       ],
       showSuggestions: false,
+      outerArray: [
+        { id: 1, items: ["Apple", "Banana", "Cherry"] },
+        { id: 2, items: ["Dog", "Elephant", "Fox"] },
+        // ... other objects
+      ],
     };
   },
   computed: {
@@ -667,6 +680,18 @@ export default {
     },
     selectedSeat() {
       return this.selectedSeats;
+    },
+    selectedSeat2() {
+      return this.$store.getters["ticket/tickets"].selectedSeats;
+    },
+
+    getInsideArray() {
+      return (index) => {
+        if (this.outerArray[index]) {
+          return this.outerArray[index].items;
+        }
+        return [];
+      };
     },
   },
   methods: {
@@ -700,11 +725,24 @@ export default {
         console.log(this.suggestionsArray[i]);
       }
     },
+
+    submitTicket() {
+      this.$store.dispatch("contact/addContact", {
+        selectedSeats: this.selectedSeats,
+      });
+      localStorage.setItem("selectedSeats", this.selectedSeats);
+    },
   },
 
   created() {
-    // this.suggestionsArray = this.$store.getters['ticket/tickets'];
-    this.displayItems();
+    // Method to get a nested item from the array
+    // const getNestedItem = (outerIndex, innerIndex) => {
+    //   return data.value.outerArray[outerIndex]?.items[innerIndex] || "";
+    // };
+    // console.log(getNestedItem);
+    // return {
+    //   getNestedItem,
+    // };
   },
 };
 </script>
@@ -1525,10 +1563,20 @@ export default {
 .seat-overview-wrapper .book-bus-btn {
   height: 40px;
   margin-top: 25px;
+  padding: 10px 20px;
+  line-height: 1;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 6px;
+  display: block;
+  text-align: center;
+  pointer-events: initial;
+  background: #0e9e4d;
 }
 .seat-overview-wrapper .book-bus-btn.disabled {
   background: red;
   opacity: 0.4;
   cursor: no-drop;
+  pointer-events: none;
 }
 </style>

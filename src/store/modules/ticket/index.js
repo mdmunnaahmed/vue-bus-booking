@@ -17,6 +17,8 @@ export default {
           duration: '02: 45 min',
           pTime: '02: 35 PM',
           fare: '115',
+          from: 'Kushtia',
+          to: 'Chittagong',
           seats: [
             {
               available: '15',
@@ -99,7 +101,10 @@ export default {
               icon: 'las la-wifi',
               name: 'Premium Seats',
             },
-          ]
+          ],
+
+
+          selectedSeats: [],
         },
       ],
     };
