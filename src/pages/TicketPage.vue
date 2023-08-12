@@ -103,7 +103,9 @@
           <div class="ticket-filter">
             <div class="filter-header filter-item">
               <h4 class="title">Filter</h4>
-              <button type="reset" class="reset-button">Reset All</button>
+              <button type="reset" class="reset-button py-2 h-auto">
+                Reset All
+              </button>
             </div>
             <div class="filter-item">
               <h5 class="title">Bus Type</h5>
@@ -280,7 +282,7 @@
                 >
                   Only {{ seat.available }} Seats Left
                 </p>
-                <button class="select-seat-btn" @click="toggleSeats">
+                <button class="select-seat-btn" @click="toggleSeats(ticket.id)">
                   Select Seat
                 </button>
               </div>
@@ -450,8 +452,8 @@
                 </div>
               </div>
               <div
-                class="seat-plan-wrapper selected"
-                :class="isSeatVisible ? 'selected' : ''"
+                class="seat-plan-wrapper"
+                :class="isSeatVisible == [ticket.id] ? 'selected' : ''"
               >
                 <h6
                   class="title"
@@ -461,6 +463,7 @@
                   {{ seat.available }} Available
                   {{ seat.available <= 1 ? "Seat" : "Seats" }}
                 </h6>
+
                 <span>Click on Seat to select or deselect</span>
                 <div class="row gx-lg-0 gx-lg-4 gy-4 justify-content-between">
                   <div class="col-lg-6 col-xl-5 col-md-7">
@@ -477,36 +480,38 @@
                           v-for="(allseat, index) in ticket.allSeats"
                           :key="index"
                         >
-                          <div>
+                          <div
+                            :class="bookedTickets[ticket.id].includes(allseat[0]) ? 'booked' : ''"
+                          >
                             <span
-                              @click="selectSeat(allseat[0])"
+                              @click="selectSeat(allseat[0], ticket.id)"
                               class="seat"
                               :class="
-                                selectedSeats.includes(allseat[0])
+                                selectedSeats.includes(ticket.id + allseat[0])
                                   ? 'selected'
                                   : ''
                               "
                               >{{ allseat[0] }}<span></span
                             ></span>
                           </div>
-                          <div>
+                          <div :class="bookedTickets[ticket.id].includes(allseat[1]) ? 'booked' : ''">
                             <span
-                              @click="selectSeat(allseat[1])"
+                              @click="selectSeat(allseat[1], ticket.id)"
                               class="seat"
                               :class="
-                                selectedSeats.includes(allseat[1])
+                                selectedSeats.includes(ticket.id + allseat[1])
                                   ? 'selected'
                                   : ''
                               "
                               >{{ allseat[1] }}<span></span
                             ></span>
                           </div>
-                          <div v-if="allseat.length == 5">
+                          <div :class="bookedTickets[ticket.id].includes(allseat[2]) ? 'booked' : ''">
                             <span
-                              @click="selectSeat(allseat[2])"
+                              @click="selectSeat(allseat[2], ticket.id)"
                               class="seat"
                               :class="
-                                selectedSeats.includes(allseat[2])
+                                selectedSeats.includes(ticket.id + allseat[2])
                                   ? 'selected'
                                   : ''
                               "
@@ -514,24 +519,24 @@
                             ></span>
                           </div>
 
-                          <div>
+                          <div :class="bookedTickets[ticket.id].includes(allseat[3]) ? 'booked' : ''">
                             <span
-                              @click="selectSeat(allseat[3])"
+                              @click="selectSeat(allseat[3], ticket.id)"
                               class="seat"
                               :class="
-                                selectedSeats.includes(allseat[3])
+                                selectedSeats.includes(ticket.id + allseat[3])
                                   ? 'selected'
                                   : ''
                               "
                               >{{ allseat[3] }}<span></span
                             ></span>
                           </div>
-                          <div v-if="allseat.length == 5">
+                          <div :class="bookedTickets[ticket.id].includes(allseat[4]) ? 'booked' : ''">
                             <span
-                              @click="selectSeat(allseat[4])"
+                              @click="selectSeat(allseat[4], ticket.id)"
                               class="seat"
                               :class="
-                                selectedSeats.includes(allseat[4])
+                                selectedSeats.includes(ticket.id + allseat[4])
                                   ? 'selected'
                                   : ''
                               "
@@ -639,6 +644,7 @@
     </div>
   </section>
   <!-- Ticket Section Ends Here -->
+  {{ bookedTickets }}
 </template>
 
 <script>
@@ -646,10 +652,11 @@ export default {
   data() {
     return {
       isSelected: false,
-      isSeatVisible: false,
+      isSeatVisible: "",
       overSelected: false,
       inputValue: "",
       selectedSeats: [],
+      bookedTickets: [[]],
       boadingPoint: 1,
       droppingPoint: 1,
       suggestionsArray: [
@@ -661,11 +668,6 @@ export default {
         },
       ],
       showSuggestions: false,
-      outerArray: [
-        { id: 1, items: ["Apple", "Banana", "Cherry"] },
-        { id: 2, items: ["Dog", "Elephant", "Fox"] },
-        // ... other objects
-      ],
     };
   },
   computed: {
@@ -674,42 +676,45 @@ export default {
         suggestion.toLowerCase().includes(this.inputValue.toLowerCase())
       );
     },
-
     tickets() {
       return this.$store.getters["ticket/tickets"];
     },
     selectedSeat() {
       return this.selectedSeats;
     },
-    selectedSeat2() {
-      return this.$store.getters["ticket/tickets"].selectedSeats;
-    },
-
-    getInsideArray() {
-      return (index) => {
-        if (this.outerArray[index]) {
-          return this.outerArray[index].items;
-        }
-        return [];
-      };
-    },
   },
   methods: {
-    toggleSeats() {
-      this.isSeatVisible = !this.isSeatVisible;
+    getFirstLetter(str) {
+      return str.charAt(0); // Returns the first character of the string
     },
-    selectSeat(seat) {
+    toggleSeats(id) {
+      this.isSeatVisible = id;
+      // this.selectedSeats = [];
+      // this.overSelected = false;
+    },
+    selectSeat(seat, selectBus) {
       this.isSelected = true;
 
-      if (this.selectedSeats.includes(seat)) {
+      // const selectTheBus =
+      //   this.$store.getters["ticket/tickets"][busTicket - 1].selectedSeats;
+
+      if (this.selectedSeats.includes(selectBus + seat)) {
         this.selectedSeats.pop(seat);
+        // selectTheBus.pop(seat);
         this.overSelected = false;
       } else {
         if (this.selectedSeats.length == 4) {
           this.overSelected = true;
           return;
         }
-        this.selectedSeats.push(seat);
+        // const addRow = [];
+        // for (let i = 0; i < this.selectedSeats[0].length; i++) {
+        //   addRow.push(seat);
+        // }
+        this.selectedSeats.push(selectBus + seat);
+        // selectTheBus.push(seat);
+
+        console.log(this.selectedSeats);
       }
     },
     updateSuggestions() {
@@ -726,15 +731,24 @@ export default {
       }
     },
 
-    submitTicket() {
-      this.$store.dispatch("contact/addContact", {
-        selectedSeats: this.selectedSeats,
-      });
-      localStorage.setItem("selectedSeats", this.selectedSeats);
+    bookedTicket() {
+      const tickets = this.$store.getters["ticket/tickets"];
+      for (let i = 0; i < tickets.length; i++) {
+        this.bookedTickets.push(tickets[i].selectedSeats);
+      }
     },
+
+    // submitTicket() {
+    //   this.$store.dispatch("contact/addContact", {
+    //     selectedSeats: this.selectedSeats,
+    //   });
+    //   localStorage.setItem("selectedSeats", this.selectedSeats);
+    // },
   },
 
   created() {
+    this.bookedTicket();
+    console.log(this.bookedTickets[1].includes("A1"));
     // Method to get a nested item from the array
     // const getNestedItem = (outerIndex, innerIndex) => {
     //   return data.value.outerArray[outerIndex]?.items[innerIndex] || "";
@@ -1578,5 +1592,9 @@ export default {
   opacity: 0.4;
   cursor: no-drop;
   pointer-events: none;
+}
+.booked .seat {
+  pointer-events: none;
+  background: #d2d3d8;
 }
 </style>
