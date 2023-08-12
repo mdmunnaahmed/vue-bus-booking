@@ -481,7 +481,11 @@
                           :key="index"
                         >
                           <div
-                            :class="bookedTickets[ticket.id].includes(allseat[0]) ? 'booked' : ''"
+                            :class="
+                              bookedTickets[ticket.id].includes(allseat[0])
+                                ? 'booked'
+                                : ''
+                            "
                           >
                             <span
                               @click="selectSeat(allseat[0], ticket.id)"
@@ -494,7 +498,13 @@
                               >{{ allseat[0] }}<span></span
                             ></span>
                           </div>
-                          <div :class="bookedTickets[ticket.id].includes(allseat[1]) ? 'booked' : ''">
+                          <div
+                            :class="
+                              bookedTickets[ticket.id].includes(allseat[1])
+                                ? 'booked'
+                                : ''
+                            "
+                          >
                             <span
                               @click="selectSeat(allseat[1], ticket.id)"
                               class="seat"
@@ -506,7 +516,13 @@
                               >{{ allseat[1] }}<span></span
                             ></span>
                           </div>
-                          <div :class="bookedTickets[ticket.id].includes(allseat[2]) ? 'booked' : ''">
+                          <div
+                            :class="
+                              bookedTickets[ticket.id].includes(allseat[2])
+                                ? 'booked'
+                                : ''
+                            "
+                          >
                             <span
                               @click="selectSeat(allseat[2], ticket.id)"
                               class="seat"
@@ -519,7 +535,13 @@
                             ></span>
                           </div>
 
-                          <div :class="bookedTickets[ticket.id].includes(allseat[3]) ? 'booked' : ''">
+                          <div
+                            :class="
+                              bookedTickets[ticket.id].includes(allseat[3])
+                                ? 'booked'
+                                : ''
+                            "
+                          >
                             <span
                               @click="selectSeat(allseat[3], ticket.id)"
                               class="seat"
@@ -531,7 +553,13 @@
                               >{{ allseat[3] }}<span></span
                             ></span>
                           </div>
-                          <div :class="bookedTickets[ticket.id].includes(allseat[4]) ? 'booked' : ''">
+                          <div
+                            :class="
+                              bookedTickets[ticket.id].includes(allseat[4])
+                                ? 'booked'
+                                : ''
+                            "
+                          >
                             <span
                               @click="selectSeat(allseat[4], ticket.id)"
                               class="seat"
@@ -547,6 +575,10 @@
                       </div>
                       <div class="seat-for-reserved">
                         <div class="seat-condition available-seat">
+                          <span class="seat"><span></span></span>
+                          <p>Available Seats</p>
+                        </div>
+                        <div class="seat-condition selected-by-others">
                           <span class="seat"><span></span></span>
                           <p>Available Seats</p>
                         </div>
@@ -629,7 +661,7 @@
                             ? 'disabled'
                             : ''
                         "
-                        @click="submitTicket"
+                        @click="navigateToNextPage"
                       >
                         Continue
                       </button>
@@ -644,7 +676,6 @@
     </div>
   </section>
   <!-- Ticket Section Ends Here -->
-  {{ bookedTickets }}
 </template>
 
 <script>
@@ -659,15 +690,10 @@ export default {
       bookedTickets: [[]],
       boadingPoint: 1,
       droppingPoint: 1,
-      suggestionsArray: [
-        {
-          id: 1,
-          date: "12/25/2023",
-          bus: "Volvo Super Delux",
-          boadings: ["apple", "komla", "panipuri"],
-        },
-      ],
+      suggestionsArray: [],
       showSuggestions: false,
+      from: "",
+      to: "",
     };
   },
   computed: {
@@ -684,35 +710,53 @@ export default {
     },
   },
   methods: {
-    getFirstLetter(str) {
-      return str.charAt(0); // Returns the first character of the string
+    // navigateToNextPage() {
+    //   const dataToSend = [this.selectedSeats];
+    //   this.$router.push({
+    //     name: "TicketConfirm",
+    //     params: { data: JSON.stringify(dataToSend) },
+    //   });
+    // },
+    navigateToNextPage() {
+      const dataToSend = {
+        seats: this.selectedSeats,
+        drop: this.droppingPoint,
+        boad: this.boadingPoint,
+        from: this.from,
+        to: this.to
+      };
+      this.$router.push({ path: `/bus-ticket/${JSON.stringify(dataToSend)}` });
     },
     toggleSeats(id) {
+      if (this.isSeatVisible == id) {
+        return;
+      }
       this.isSeatVisible = id;
-      // this.selectedSeats = [];
-      // this.overSelected = false;
+      this.selectedSeats = [];
+      this.overSelected = false;
+      this.droppingPoint = 1;
+      this.boadingPoint = 1;
     },
     selectSeat(seat, selectBus) {
       this.isSelected = true;
 
-      // const selectTheBus =
-      //   this.$store.getters["ticket/tickets"][busTicket - 1].selectedSeats;
+      const selectTheBus =
+        this.$store.getters["ticket/tickets"][selectBus - 1].selectedSeats;
+
+      this.from = this.$store.getters["ticket/tickets"][selectBus - 1].from;
+      this.to = this.$store.getters["ticket/tickets"][selectBus - 1].to;
 
       if (this.selectedSeats.includes(selectBus + seat)) {
         this.selectedSeats.pop(seat);
-        // selectTheBus.pop(seat);
+        selectTheBus.pop(seat);
         this.overSelected = false;
       } else {
         if (this.selectedSeats.length == 4) {
           this.overSelected = true;
           return;
         }
-        // const addRow = [];
-        // for (let i = 0; i < this.selectedSeats[0].length; i++) {
-        //   addRow.push(seat);
-        // }
         this.selectedSeats.push(selectBus + seat);
-        // selectTheBus.push(seat);
+        selectTheBus.push(seat);
 
         console.log(this.selectedSeats);
       }
@@ -1373,7 +1417,7 @@ export default {
   height: 50px;
   width: 35px;
   color: #777;
-  border: 1px solid #979797;
+  border: 1px solid #bebebe;
   border-top-left-radius: 2px;
   border-bottom-left-radius: 2px;
   margin-right: 10px;
@@ -1396,7 +1440,7 @@ export default {
   left: 2px;
   right: 2px;
   height: 4px;
-  border: 1px solid rgba(27, 39, 61, 0.25);
+  border: 1px solid rgba(27, 39, 61, 0.2);
   border-radius: 2px;
   bottom: 6px;
 }
@@ -1480,9 +1524,9 @@ export default {
   border-color: #fff;
 }
 
-.seat-for-reserved .selected-by-ladies .seat {
-  border-color: #f763c6;
-  background: #f763c6;
+.seat-for-reserved .selected-by-others .seat {
+  border-color: #d0d0d0;
+  background: #d0d0d0;
   color: #777 !important;
 }
 
@@ -1595,6 +1639,6 @@ export default {
 }
 .booked .seat {
   pointer-events: none;
-  background: #d2d3d8;
+  background: #dedede;
 }
 </style>
