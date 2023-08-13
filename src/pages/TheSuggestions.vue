@@ -1,36 +1,55 @@
 <template>
   <div>
-    <button @click="addItem">Add Item</button>
-    <table>
-      <tr v-for="(row, rowIndex) in multiDimArray" :key="rowIndex">
-        <td v-for="(item, colIndex) in row" :key="colIndex">{{ item }}</td>
-      </tr>
-    </table>
+    <input v-model="inputValue" @input="updateSuggestions" />
+    <ul v-if="showSuggestions" class="suggestions">
+      <li v-for="(suggestion, index) in filteredSuggestions" :key="index" @click="selectSuggestion(suggestion)">
+        {{ suggestion.name }}
+      </li>
+    </ul>
   </div>
-
-  {{multiDimArray[1][0]}}
 </template>
 
 <script>
 export default {
   data() {
     return {
-      multiDimArray: [
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9]
-      ]
+      inputValue: '',
+      suggestions: [
+        { name: 'Apple' },
+        { name: 'Banana' },
+        { name: 'Cherry' },
+        // ... other objects
+      ],
+      showSuggestions: false,
     };
   },
+  computed: {
+    filteredSuggestions() {
+      return this.suggestions.filter(suggestion =>
+        suggestion.name.toLowerCase().includes(this.inputValue.toLowerCase())
+      );
+    },
+  },
   methods: {
-    addItem() {
-      // Let's add a new row with random values
-      const newRow = [];
-      for (let i = 0; i < this.multiDimArray[0].length; i++) {
-        newRow.push(Math.floor(Math.random() * 10));
-      }
-      this.multiDimArray.push(newRow);
-    }
-  }
+    updateSuggestions() {
+      this.showSuggestions = this.inputValue.length > 0;
+    },
+    selectSuggestion(suggestion) {
+      this.inputValue = suggestion.name;
+      this.showSuggestions = false;
+    },
+  },
 };
 </script>
+
+<style>
+.suggestions {
+  list-style-type: none;
+  padding: 0;
+  border: 1px solid #ccc;
+}
+.suggestions li {
+  padding: 8px;
+  cursor: pointer;
+}
+</style>

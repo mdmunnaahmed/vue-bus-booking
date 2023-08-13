@@ -13,7 +13,7 @@
                 type="text"
                 class="form--control"
                 placeholder="Enter Pickup City"
-                v-model="inputValue"
+                v-model="PickCity"
                 @input="updateSuggestions"
               />
               <ul v-if="showSuggestions" class="slist">
@@ -22,19 +22,30 @@
                   :key="index"
                   @click="selectSuggestion(suggestion)"
                 >
-                  {{ suggestion.bus }}
+                  {{ suggestion }}
                 </li>
               </ul>
             </div>
           </div>
           <div class="col-md-4 col-lg-3">
-            <div class="form--group">
+            <div class="form--group position-relative">
               <i class="las la-map-marker"></i>
               <input
                 type="text"
                 class="form--control"
                 placeholder="Enter Destination City"
+                v-model="DropCity"
+                @input="updateSuggestions2"
               />
+              <ul v-if="showSuggestions2" class="slist">
+                <li
+                  v-for="(suggestion, index) in filteredSuggestions2"
+                  :key="index"
+                  @click="selectSuggestion2(suggestion)"
+                >
+                  {{ suggestion }}
+                </li>
+              </ul>
             </div>
           </div>
           <div class="col-md-4 col-lg-3">
@@ -687,13 +698,16 @@ export default {
       isSelected: false,
       isSeatVisible: "",
       overSelected: false,
-      inputValue: "",
+      PickCity: "",
+      DropCity: "",
       selectedSeats: [],
       bookedTickets: [[]],
       boadingPoint: 1,
       droppingPoint: 1,
       suggestionsArray: [],
+      suggestionsArray2: [],
       showSuggestions: false,
+      showSuggestions2: false,
 
       date: "",
       from: "",
@@ -710,9 +724,15 @@ export default {
   computed: {
     filteredSuggestions() {
       return this.suggestionsArray.filter((suggestion) =>
-        suggestion.toLowerCase().includes(this.inputValue.toLowerCase())
+        suggestion.toLowerCase().includes(this.PickCity.toLowerCase())
       );
     },
+    filteredSuggestions2() {
+      return this.suggestionsArray2.filter((suggestion2) =>
+        suggestion2.toLowerCase().includes(this.DropCity.toLowerCase())
+      );
+    },
+
     tickets() {
       return this.$store.getters["ticket/tickets"];
     },
@@ -775,18 +795,23 @@ export default {
         console.log(this.selectedSeats);
       }
     },
+
     updateSuggestions() {
-      this.showSuggestions = this.inputValue.length > 0;
+      this.showSuggestions = this.PickCity.length > 0;
     },
+
+    updateSuggestions2() {
+      this.showSuggestions2 = this.DropCity.length > 0;
+    },
+    
     selectSuggestion(suggestion) {
-      this.inputValue = suggestion.bus;
+      this.PickCity = suggestion;
       this.showSuggestions = false;
     },
 
-    displayItems() {
-      for (let i = 0; i < this.suggestionsArray.length; i++) {
-        console.log(this.suggestionsArray[i]);
-      }
+    selectSuggestion2(suggestion) {
+      this.DropCity = suggestion;
+      this.showSuggestions2 = false;
     },
 
     bookedTicket() {
@@ -795,10 +820,19 @@ export default {
         this.bookedTickets.push(tickets[i].selectedSeats);
       }
     },
+
+    getBuses() {
+      const tickets = this.$store.getters["ticket/tickets"];
+      for (let i = 0; i < tickets.length; i++) {
+        this.suggestionsArray.push(tickets[i].bus);
+        this.suggestionsArray2.push(tickets[i].bus);
+      }
+    },
   },
 
   created() {
     this.bookedTicket();
+    this.getBuses();
   },
 };
 </script>
