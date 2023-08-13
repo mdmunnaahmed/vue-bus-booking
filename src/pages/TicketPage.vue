@@ -491,7 +491,7 @@
                               @click="selectSeat(allseat[0], ticket.id)"
                               class="seat"
                               :class="
-                                selectedSeats.includes(ticket.id + allseat[0])
+                                selectedSeats.includes(allseat[0])
                                   ? 'selected'
                                   : ''
                               "
@@ -509,7 +509,7 @@
                               @click="selectSeat(allseat[1], ticket.id)"
                               class="seat"
                               :class="
-                                selectedSeats.includes(ticket.id + allseat[1])
+                                selectedSeats.includes(allseat[1])
                                   ? 'selected'
                                   : ''
                               "
@@ -527,7 +527,7 @@
                               @click="selectSeat(allseat[2], ticket.id)"
                               class="seat"
                               :class="
-                                selectedSeats.includes(ticket.id + allseat[2])
+                                selectedSeats.includes(allseat[2])
                                   ? 'selected'
                                   : ''
                               "
@@ -546,7 +546,7 @@
                               @click="selectSeat(allseat[3], ticket.id)"
                               class="seat"
                               :class="
-                                selectedSeats.includes(ticket.id + allseat[3])
+                                selectedSeats.includes(allseat[3])
                                   ? 'selected'
                                   : ''
                               "
@@ -564,7 +564,7 @@
                               @click="selectSeat(allseat[4], ticket.id)"
                               class="seat"
                               :class="
-                                selectedSeats.includes(ticket.id + allseat[4])
+                                selectedSeats.includes(allseat[4])
                                   ? 'selected'
                                   : ''
                               "
@@ -602,7 +602,8 @@
                             :key="index"
                             :value="boading.stand + boading.time"
                           >
-                            {{ boading.stand }} {{ boading.time }}
+                            {{ boading.stand }} <span> </span>
+                            {{ boading.time }}
                           </option>
                         </select>
                       </div>
@@ -617,7 +618,8 @@
                             :key="index"
                             :value="dropping.stand + dropping.time"
                           >
-                            {{ dropping.stand }} {{ dropping.time }}
+                            {{ dropping.stand }} <span> </span>
+                            {{ dropping.time }}
                           </option>
                         </select>
                       </div>
@@ -648,7 +650,7 @@
                         <li class="fare">
                           <h6 class="title">Total</h6>
                           <span class="value fw-semibold text--success"
-                            >$ {{ selectedSeats.length * ticket.fare }}</span
+                            >$ {{ totalFare }}</span
                           >
                         </li>
                       </ul>
@@ -692,8 +694,17 @@ export default {
       droppingPoint: 1,
       suggestionsArray: [],
       showSuggestions: false,
+
+      date: "",
       from: "",
       to: "",
+      bus: "",
+      droppingStand: "",
+      boadingStand: "",
+
+      droppingTime: "",
+      boadingTime: "",
+      fare: "",
     };
   },
   computed: {
@@ -708,22 +719,22 @@ export default {
     selectedSeat() {
       return this.selectedSeats;
     },
+    totalFare() {
+      return this.selectedSeats.length * this.fare;
+    },
   },
   methods: {
-    // navigateToNextPage() {
-    //   const dataToSend = [this.selectedSeats];
-    //   this.$router.push({
-    //     name: "TicketConfirm",
-    //     params: { data: JSON.stringify(dataToSend) },
-    //   });
-    // },
     navigateToNextPage() {
       const dataToSend = {
         seats: this.selectedSeats,
         drop: this.droppingPoint,
         boad: this.boadingPoint,
         from: this.from,
-        to: this.to
+        to: this.to,
+        bus: this.bus,
+        date: this.date,
+        totalFare: this.totalFare,
+        fare: this.fare,
       };
       this.$router.push({ path: `/bus-ticket/${JSON.stringify(dataToSend)}` });
     },
@@ -740,23 +751,26 @@ export default {
     selectSeat(seat, selectBus) {
       this.isSelected = true;
 
-      const selectTheBus =
-        this.$store.getters["ticket/tickets"][selectBus - 1].selectedSeats;
+      // const selectTheBus =
+      //   this.$store.getters["ticket/tickets"][selectBus - 1].selectedSeats;
 
       this.from = this.$store.getters["ticket/tickets"][selectBus - 1].from;
       this.to = this.$store.getters["ticket/tickets"][selectBus - 1].to;
+      this.bus = this.$store.getters["ticket/tickets"][selectBus - 1].bus;
+      this.date = this.$store.getters["ticket/tickets"][selectBus - 1].date;
+      this.fare = this.$store.getters["ticket/tickets"][selectBus - 1].fare;
 
-      if (this.selectedSeats.includes(selectBus + seat)) {
+      if (this.selectedSeats.includes(seat)) {
         this.selectedSeats.pop(seat);
-        selectTheBus.pop(seat);
+        // selectTheBus.pop(seat);
         this.overSelected = false;
       } else {
         if (this.selectedSeats.length == 4) {
           this.overSelected = true;
           return;
         }
-        this.selectedSeats.push(selectBus + seat);
-        selectTheBus.push(seat);
+        this.selectedSeats.push(seat);
+        // selectTheBus.push(seat);
 
         console.log(this.selectedSeats);
       }
@@ -781,26 +795,10 @@ export default {
         this.bookedTickets.push(tickets[i].selectedSeats);
       }
     },
-
-    // submitTicket() {
-    //   this.$store.dispatch("contact/addContact", {
-    //     selectedSeats: this.selectedSeats,
-    //   });
-    //   localStorage.setItem("selectedSeats", this.selectedSeats);
-    // },
   },
 
   created() {
     this.bookedTicket();
-    console.log(this.bookedTickets[1].includes("A1"));
-    // Method to get a nested item from the array
-    // const getNestedItem = (outerIndex, innerIndex) => {
-    //   return data.value.outerArray[outerIndex]?.items[innerIndex] || "";
-    // };
-    // console.log(getNestedItem);
-    // return {
-    //   getNestedItem,
-    // };
   },
 };
 </script>

@@ -6,10 +6,11 @@ export default {
   namespaced: true,
   state() {
     return {
+      bookings: [],
       tickets: [
         {
           id: 1,
-          date: '12/25/2023',
+          date: '12-25-2023',
           bus: 'Volvo Super Delux',
           type: 'AC Sleeper 2 + 2',
           rating: '4.9',
@@ -42,7 +43,7 @@ export default {
           boadings: [
             {
               time: '9:15 AM',
-              stand: 'Kushtia',
+              stand: 'Kushtia Chorhas',
             },
             {
               time: '10:15 AM',
@@ -104,11 +105,11 @@ export default {
           ],
 
 
-          selectedSeats: ['A1', 'B3', 'B1', 'F4'],
+          selectedSeats: ['A1', 'B3', 'C2', 'F4'],
         },
         {
           id: 2,
-          date: '12/25/2023',
+          date: '12-15-2023',
           bus: 'Rabeya Chill',
           type: 'AC Sleeper 2 + 2',
           rating: '4.9',
@@ -141,7 +142,7 @@ export default {
           boadings: [
             {
               time: '9:15 AM',
-              stand: 'Kushtia',
+              stand: 'Kushtia Tagoria',
             },
             {
               time: '10:15 AM',

@@ -6,10 +6,12 @@ import App from "./App.vue";
 import store from "./store";
 
 import router from "./router.js";
+import BaseDialog from './components/ui/BaseDialog.vue'
 
 const app = createApp(App);
 
 app.use(router);
 app.use(store);
+app.component('base-dialog', BaseDialog);
 
 app.mount("#app");
