@@ -5,6 +5,7 @@
       <div class="bus-search-header">
         <form
           class="ticket-form ticket-form-two row g-3 justify-content-center"
+          @submit.prevent="searchBus"
         >
           <div class="col-md-4 col-lg-3">
             <div class="form--group position-relative">
@@ -18,7 +19,7 @@
               />
               <ul v-if="showSuggestions" class="slist">
                 <li
-                  v-for="(suggestion, index) in filteredSuggestions"
+                  v-for="(suggestion, index) in uniqueItems"
                   :key="index"
                   @click="selectSuggestion(suggestion)"
                 >
@@ -27,6 +28,7 @@
               </ul>
             </div>
           </div>
+
           <div class="col-md-4 col-lg-3">
             <div class="form--group position-relative">
               <i class="las la-map-marker"></i>
@@ -39,7 +41,7 @@
               />
               <ul v-if="showSuggestions2" class="slist">
                 <li
-                  v-for="(suggestion, index) in filteredSuggestions2"
+                  v-for="(suggestion, index) in uniqueItems2"
                   :key="index"
                   @click="selectSuggestion2(suggestion)"
                 >
@@ -55,13 +57,8 @@
                 type="date"
                 id="start-date"
                 class="form--control"
-                placeholder="Departure Date"
+                v-model="searchDate"
               />
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3">
-            <div class="form--group">
-              <button>Find Tickets</button>
             </div>
           </div>
         </form>
@@ -72,8 +69,13 @@
                 <img src="../assets/thumb/bus.jpg" alt="bg" />
               </div>
               <div class="content">
-                <h5 class="title">Dhaka - Kushtia</h5>
-                <span class="date">16 May, 21</span>
+                <h5 class="title">
+                  {{ PickCity ? PickCity : "From" }} -
+                  {{ DropCity ? DropCity : "To" }}
+                </h5>
+                <span class="date">{{
+                  formattedDate ? formattedDate : "Date"
+                }}</span>
               </div>
             </div>
           </div>
@@ -84,17 +86,19 @@
                 <div class="icon">
                   <i class="las la-bus"></i>
                 </div>
-                <span class="result-info">32 Buses Found</span>
+                <span v-if="filteredTickets" class="result-info"
+                  >{{ filteredTickets.length }} Buses Found</span
+                >
               </div>
             </div>
           </div>
           <div class="col-md-5 col-lg-4 col-xl-3">
             <div class="route-date-changer">
               <div class="button-wrapper">
-                <button type="button" class="date-btn">
+                <button type="button" class="date-btn" @click="prevDay">
                   <i class="las la-arrow-left"></i> Prev. Day
                 </button>
-                <button type="button" class="date-btn">
+                <button type="button" class="date-btn" @click="nextDay">
                   Next Day <i class="las la-arrow-right"></i>
                 </button>
               </div>
@@ -260,7 +264,9 @@
           <div class="ticket-wrapper">
             <div
               class="ticket-item"
-              v-for="(ticket, index) in tickets"
+              v-for="(ticket, index) in filteredTickets
+                ? filteredTickets
+                : tickets"
               :key="index"
             >
               <div class="ticket-item-inner">
@@ -695,20 +701,24 @@
 export default {
   data() {
     return {
+      // On Page Conditional
       isSelected: false,
       isSeatVisible: "",
       overSelected: false,
-      PickCity: "",
-      DropCity: "",
+
+      // Show Data On Page
       selectedSeats: [],
       bookedTickets: [[]],
-      boadingPoint: 1,
-      droppingPoint: 1,
+
+      // Suggestions Data
       suggestionsArray: [],
       suggestionsArray2: [],
       showSuggestions: false,
       showSuggestions2: false,
 
+      // Send Next Page Data
+      boadingPoint: 1,
+      droppingPoint: 1,
       date: "",
       from: "",
       to: "",
@@ -719,9 +729,42 @@ export default {
       droppingTime: "",
       boadingTime: "",
       fare: "",
+
+      // Get Search Input
+      PickCity: "",
+      DropCity: "",
+      searchDate: "",
     };
   },
   computed: {
+    formatDate() {
+      const dateParts = this.searchDate.split("-");
+      const day = parseInt(dateParts[2]);
+      const year = parseInt(dateParts[0]);
+      const month = parseInt(dateParts[1]);
+
+      return `${month}-${day}-${year}`;
+    },
+    formattedDate() {
+      const dateParts = this.searchDate.split("-");
+      const year = parseInt(dateParts[0]);
+      const month = parseInt(dateParts[1]) - 1;
+      const day = parseInt(dateParts[2]);
+
+      const date = new Date(year, month, day);
+
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      const formatted = date.toLocaleDateString("en-US", options);
+
+      return `${formatted}`;
+    },
+    uniqueItems() {
+      return [...new Set(this.filteredSuggestions)];
+    },
+    uniqueItems2() {
+      return [...new Set(this.filteredSuggestions2)];
+    },
+
     filteredSuggestions() {
       return this.suggestionsArray.filter((suggestion) =>
         suggestion.toLowerCase().includes(this.PickCity.toLowerCase())
@@ -736,6 +779,21 @@ export default {
     tickets() {
       return this.$store.getters["ticket/tickets"];
     },
+    filteredTickets() {
+      if (this.PickCity == "" || this.DropCity == "" || this.formatDate == "") {
+        return;
+      } else {
+        return this.tickets.filter(
+          (ticket) =>
+            ticket.to.toLowerCase().includes(this.DropCity.toLowerCase()) &&
+            ticket.from.toLowerCase().includes(this.PickCity.toLowerCase()) &&
+            ticket.date.includes(this.formatDate)
+        );
+      }
+    },
+    seachBusLength() {
+      return this.filteredTickets.length;
+    },
     selectedSeat() {
       return this.selectedSeats;
     },
@@ -744,6 +802,24 @@ export default {
     },
   },
   methods: {
+    nextDay() {
+      const dateParts = this.searchDate.split("-");
+      const day = parseInt(dateParts[2]);
+      let day2 = day + 1;
+      const year = parseInt(dateParts[0]);
+      const month = parseInt(dateParts[1]);
+
+      this.searchDate = `${year}-${month}-${day2}`;
+    },
+    prevDay() {
+      const dateParts = this.searchDate.split("-");
+      const day = parseInt(dateParts[2]);
+      let day2 = day - 1;
+      const year = parseInt(dateParts[0]);
+      const month = parseInt(dateParts[1]);
+
+      this.searchDate = `${year}-${month}-${day2}`;
+    },
     navigateToNextPage() {
       const dataToSend = {
         seats: this.selectedSeats,
@@ -803,7 +879,7 @@ export default {
     updateSuggestions2() {
       this.showSuggestions2 = this.DropCity.length > 0;
     },
-    
+
     selectSuggestion(suggestion) {
       this.PickCity = suggestion;
       this.showSuggestions = false;
@@ -824,8 +900,8 @@ export default {
     getBuses() {
       const tickets = this.$store.getters["ticket/tickets"];
       for (let i = 0; i < tickets.length; i++) {
-        this.suggestionsArray.push(tickets[i].bus);
-        this.suggestionsArray2.push(tickets[i].bus);
+        this.suggestionsArray.push(tickets[i].from);
+        this.suggestionsArray2.push(tickets[i].to);
       }
     },
   },
@@ -850,12 +926,12 @@ export default {
 }
 
 .slist li {
-  padding: 8px;
+  padding: 6px 10px;
   cursor: pointer;
 }
 
 .slist li:hover {
-  background-color: #f0f0f0;
+  background-color: #f2f2f2;
 }
 
 .custom--checkbox label {

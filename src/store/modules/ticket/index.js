@@ -18,7 +18,7 @@ export default {
           duration: '02: 45 min',
           pTime: '02: 35 PM',
           fare: '115',
-          from: 'Kushtia',
+          from: 'Jineidah',
           to: 'Chittagong',
           seats: [
             {
@@ -109,7 +109,7 @@ export default {
         },
         {
           id: 2,
-          date: '12-15-2023',
+          date: '8-14-2023',
           bus: 'Rabeya Chill',
           type: 'AC Sleeper 2 + 2',
           rating: '4.9',
@@ -118,7 +118,7 @@ export default {
           pTime: '02: 35 PM',
           fare: '1150',
           from: 'Kushtia',
-          to: 'Chittagong',
+          to: 'Rajbari',
           seats: [
             {
               available: '15',
@@ -208,7 +208,7 @@ export default {
         },
         {
           id: 2,
-          date: '12-15-2023',
+          date: '8-15-2023',
           bus: 'Pangku Bus',
           type: 'AC Sleeper 2 + 2',
           rating: '4.9',
@@ -216,8 +216,8 @@ export default {
           duration: '02: 45 min',
           pTime: '02: 35 PM',
           fare: '1150',
-          from: 'Kushtia',
-          to: 'Chittagong',
+          from: 'Dhaka',
+          to: 'Manikgong',
           seats: [
             {
               available: '15',
