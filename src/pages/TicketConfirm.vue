@@ -358,7 +358,7 @@ export default {
   },
   methods: {
     confirmTicket() {
-      if ((this.name == "" || this.age == "", this.mobile == "")) {
+      if ((this.name == "" || this.age == "" || this.mobile == "")) {
         this.formNotValid = true;
         this.formIsValid = false;
         return;

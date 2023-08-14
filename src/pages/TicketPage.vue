@@ -57,6 +57,7 @@
                 type="date"
                 id="start-date"
                 class="form--control"
+                :min="minDate"
                 v-model="searchDate"
               />
             </div>
@@ -144,98 +145,29 @@
                   >
                 </li>
                 <li class="custom--checkbox">
-                  <input id="sleeper" type="checkbox" />
-                  <label for="sleeper"
+                  <input id="sleeper0" type="checkbox" />
+                  <label for="sleeper0"
                     ><span><i class="las la-bed"></i>Sleeper</span></label
                   >
                 </li>
               </ul>
             </div>
             <div class="filter-item">
-              <h5 class="title">Departure Time</h5>
-              <ul class="bus-type">
-                <li class="custom--checkbox">
-                  <input id="01" type="checkbox" />
-                  <label for="01"
-                    ><span
-                      ><i class="las la-stopwatch"></i>Before 6 am</span
-                    ></label
-                  >
-                </li>
-                <li class="custom--checkbox">
-                  <input id="02" type="checkbox" />
-                  <label for="02"
-                    ><span
-                      ><i class="las la-stopwatch"></i>Before 8 am</span
-                    ></label
-                  >
-                </li>
-                <li class="custom--checkbox">
-                  <input id="03" type="checkbox" />
-                  <label for="03"
-                    ><span
-                      ><i class="las la-stopwatch"></i>Before 10 am</span
-                    ></label
-                  >
-                </li>
-                <li class="custom--checkbox">
-                  <input id="04" type="checkbox" />
-                  <label for="04"
-                    ><span
-                      ><i class="las la-stopwatch"></i>Before 11:30 am</span
-                    ></label
-                  >
-                </li>
-              </ul>
-            </div>
-            <div class="filter-item">
-              <h5 class="title">Arrival Time</h5>
-              <ul class="bus-type">
-                <li class="custom--checkbox">
-                  <input id="05" type="checkbox" />
-                  <label for="05"
-                    ><span
-                      ><i class="las la-stopwatch"></i>Before 6 am</span
-                    ></label
-                  >
-                </li>
-                <li class="custom--checkbox">
-                  <input id="06" type="checkbox" />
-                  <label for="06"
-                    ><span
-                      ><i class="las la-stopwatch"></i>Before 8 am</span
-                    ></label
-                  >
-                </li>
-                <li class="custom--checkbox">
-                  <input id="07" type="checkbox" />
-                  <label for="07"
-                    ><span
-                      ><i class="las la-stopwatch"></i>Before 10 am</span
-                    ></label
-                  >
-                </li>
-                <li class="custom--checkbox">
-                  <input id="08" type="checkbox" />
-                  <label for="08"
-                    ><span
-                      ><i class="las la-stopwatch"></i>Before 11:30 am</span
-                    ></label
-                  >
-                </li>
-              </ul>
-            </div>
-            <div class="filter-item">
               <h5 class="title">Amenities</h5>
+              {{ amenities }}
               <ul class="bus-type">
                 <li class="custom--checkbox">
-                  <input id="wifi" type="checkbox" />
+                  <input id="wifi" type="checkbox" @change="amenFilter" />
                   <label for="wifi"
                     ><span><i class="las la-wifi"></i>Wifi</span></label
                   >
                 </li>
                 <li class="custom--checkbox">
-                  <input id="charging-port" type="checkbox" />
+                  <input
+                    id="charging-port"
+                    type="checkbox"
+                    @change="amenFilter"
+                  />
                   <label for="charging-port"
                     ><span
                       ><i class="las la-battery-quarter"></i>Chargin Port
@@ -243,15 +175,15 @@
                   >
                 </li>
                 <li class="custom--checkbox">
-                  <input id="sleeper2" type="checkbox" />
-                  <label for="sleeper2"
+                  <input id="sleeper" type="checkbox" @change="amenFilter" />
+                  <label for="sleeper"
                     ><span
                       ><i class="las la-battery-quarter"></i>Sleeper</span
                     ></label
                   >
                 </li>
                 <li class="custom--checkbox">
-                  <input id="tv" type="checkbox" />
+                  <input id="tv" type="checkbox" @change="amenFilter" />
                   <label for="tv"
                     ><span><i class="las la-tv"></i>TV </span></label
                   >
@@ -306,167 +238,141 @@
               <div class="ticket-item-footer">
                 <ul class="info-list nav-tabs nav border-0">
                   <li class="cancellation">
-                    <a href="#cancel" data-bs-toggle="tab" class="info-list-btn"
-                      >Calcellation Policy</a
+                    <span
+                      data-bs-toggle="tab"
+                      class="info-list-btn"
+                      @click="toggleModal('cacellation')"
+                      >Calcellation Policy</span
                     >
                   </li>
                   <li class="boading-point">
-                    <a
-                      href="#boarding"
+                    <span
                       data-bs-toggle="tab"
                       class="info-list-btn"
-                      >Boading Point</a
+                      @click="toggleModal('boadModal')"
+                      >Boading Point</span
                     >
                   </li>
                   <li class="dropping-point">
-                    <a
-                      href="#dropping"
+                    <span
                       data-bs-toggle="tab"
                       class="info-list-btn"
-                      >Dropping Point</a
+                      @click="toggleModal('dropModal')"
+                      >Dropping Point</span
                     >
                   </li>
                   <li class="amenities">
-                    <a
-                      href="#amenities"
+                    <span
                       data-bs-toggle="tab"
                       class="info-list-btn"
-                      >Amenities & Bus Details</a
+                      @click="toggleModal('busDetails')"
+                      >Amenities & Bus Details</span
                     >
                   </li>
                 </ul>
-                <div class="tab-content">
-                  <div class="tab-pane show fade" id="cancel">
-                    <div class="cancellation-details info-details">
-                      <p>
-                        Lorem ipsum dolor sit, amet consectetur adipisicing
-                        elit. Omnis labore illum porro, odit sit perspiciatis
-                        rerum consequatur autem, quidem possimus libero dolorem
-                        repellat! Necessitatibus beatae modi perspiciatis animi
-                        reiciendis dolores. Lorem ipsum dolor sit, amet
-                        consectetur adipisicing elit. Omnis labore illum porro,
-                        odit sit perspiciatis rerum consequatur autem, quidem
-                        possimus libero dolorem repellat! Necessitatibus beatae
-                        modi perspiciatis animi reiciendis dolores.
-                      </p>
-                      <ul class="list">
-                        <li>amet consectetur adipisicing elit. Omnis</li>
-                        <li>Necessitatibus beatae modi Omnis</li>
-                        <li>amet consectetur adipisicing elit. Omnis</li>
-                        <li>perspiciatis animi reiciendis doloresOmnis</li>
-                      </ul>
+
+                <base-modal v-if="cacellation" @close="toggleModal">
+                  <template #ico>
+                    <h4 class="text-warning">Cancellation Policy</h4>
+                  </template>
+                  <template #default>
+                    <p class="mb-3">{{ ticket.cancelPolicy }}</p>
+                  </template>
+                  <template #actions>
+                    <div class="text-center">
+                      <button
+                        class="btn btn-warning shadow-lg w-auto px-5 py-2 h-auto"
+                        @click="toggleModal"
+                      >
+                        Okay
+                      </button>
                     </div>
-                    <div class="close-btn">
-                      <i class="las la-times"></i>
+                  </template>
+                </base-modal>
+
+                <base-modal v-if="boadModal" @close="toggleModal">
+                  <template #ico>
+                    <h4 class="text-primary">Boading Points</h4>
+                  </template>
+                  <template #default>
+                    <ul class="list justify-content-center d-flex flex-column">
+                      <li v-for="(bor, index) in ticket.boadings" :key="index">
+                        <span class="time text-primary fw-semibold">{{
+                          bor.time
+                        }}</span>
+                        <p class="bor-point text-secondary">{{ bor.stand }}</p>
+                      </li>
+                    </ul>
+                  </template>
+                  <template #actions>
+                    <div class="text-center">
+                      <button
+                        class="btn btn-primary shadow-lg w-auto px-5 py-2 h-auto"
+                        @click="toggleModal"
+                      >
+                        Okay
+                      </button>
                     </div>
-                  </div>
-                  <div class="tab-pane show fade" id="boarding">
-                    <div class="info-details bor-drop-lsit">
-                      <h6 class="title">Boarding Points</h6>
-                      <ul class="list">
-                        <li>
-                          <span class="time">09:15 am</span>
-                          <p class="bor-point">Khoksa Bus Stand, Kushtia</p>
-                          <p class="bor-info">Lalonsah Highway, Kushtia East</p>
-                        </li>
-                        <li>
-                          <span class="time">10:15 am</span>
-                          <p class="bor-point">Khoksa Bus Stand, Kushtia</p>
-                          <p class="bor-info">Lalonsah Highway, Kushtia East</p>
-                        </li>
-                        <li>
-                          <span class="time">11:15 am</span>
-                          <p class="bor-point">Khoksa Bus Stand, Kushtia</p>
-                          <p class="bor-info">Lalonsah Highway, Kushtia East</p>
-                        </li>
-                        <li>
-                          <span class="time">12:15 am</span>
-                          <p class="bor-point">Khoksa Bus Stand, Kushtia</p>
-                          <p class="bor-info">Lalonsah Highway, Kushtia East</p>
-                        </li>
-                      </ul>
+                  </template>
+                </base-modal>
+
+                <base-modal v-if="dropModal" @close="toggleModal">
+                  <template #ico>
+                    <h4 class="text-primary">Dropping Points</h4>
+                  </template>
+                  <template #default>
+                    <ul class="list">
+                      <li
+                        v-for="(drop, index) in ticket.droppings"
+                        :key="index"
+                      >
+                        <span class="time fw-semibold text-primary">{{
+                          drop.time
+                        }}</span>
+                        <p class="bor-point text-secondary">{{ drop.stand }}</p>
+                      </li>
+                    </ul>
+                  </template>
+                  <template #actions>
+                    <div class="text-center">
+                      <button
+                        class="btn btn-primary shadow-lg w-auto px-5 py-2 h-auto"
+                        @click="toggleModal"
+                      >
+                        Okay
+                      </button>
                     </div>
-                    <div class="close-btn">
-                      <i class="las la-times"></i>
+                  </template>
+                </base-modal>
+
+                <base-modal v-if="busDetails" @close="toggleModal">
+                  <template #ico>
+                    <h4 class="text-primary">Bus Details & Amenities</h4>
+                  </template>
+                  <template #default>
+                    <p>{{ ticket.busDetails }}</p>
+                    <h6 class="mt-4 mb-3">Bus Amenities</h6>
+                    <ul class="list d-flex flex-wrap gap-4">
+                      <li
+                        v-for="(amen, index) in ticket.aminities"
+                        :key="index"
+                      >
+                        <i :class="amen.icon" class="text--base me-1"></i>
+                        {{ amen.name }}
+                      </li>
+                    </ul>
+                  </template>
+                  <template #actions>
+                    <div class="text-center">
+                      <button
+                        class="btn btn-primary shadow-lg w-auto px-5 py-2 h-auto"
+                        @click="toggleModal"
+                      >
+                        Okay
+                      </button>
                     </div>
-                  </div>
-                  <div class="tab-pane show fade" id="dropping">
-                    <div class="info-details bor-drop-lsit">
-                      <h6 class="title">Dropping Points</h6>
-                      <ul class="list">
-                        <li>
-                          <span class="time">09:15 am</span>
-                          <p class="bor-point">Khoksa Bus Stand, Kushtia</p>
-                          <p class="bor-info">Lalonsah Highway, Kushtia East</p>
-                        </li>
-                        <li>
-                          <span class="time">09:15 am</span>
-                          <p class="bor-point">Khoksa Bus Stand, Kushtia</p>
-                          <p class="bor-info">Lalonsah Highway, Kushtia East</p>
-                        </li>
-                        <li>
-                          <span class="time">09:15 am</span>
-                          <p class="bor-point">Khoksa Bus Stand, Kushtia</p>
-                          <p class="bor-info">Lalonsah Highway, Kushtia East</p>
-                        </li>
-                        <li>
-                          <span class="time">09:15 am</span>
-                          <p class="bor-point">Khoksa Bus Stand, Kushtia</p>
-                          <p class="bor-info">Lalonsah Highway, Kushtia East</p>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="close-btn">
-                      <i class="las la-times"></i>
-                    </div>
-                  </div>
-                  <div class="tab-pane show fade" id="amenities">
-                    <div class="amenities-details info-details">
-                      <h6 class="bus-details">Bus Details</h6>
-                      <p>
-                        Lorem ipsum dolor sit, amet consectetur adipisicing
-                        elit. Omnis labore illum porro, odit sit perspiciatis
-                        rerum consequatur autem, quidem possimus libero dolorem
-                        repellat! Necessitatibus beatae modi perspiciatis animi
-                        reiciendis dolores. Lorem ipsum dolor sit amet
-                        consectetur adipisicing elit. Facere ducimus,
-                        praesentium asperiores odit ratione sunt ipsam, neque
-                        dolorum libero blanditiis magnam deleniti molestias, vel
-                        in repellendus molestiae velit laudantium aliquid? Lorem
-                        ipsum dolor sit amet consectetur adipisicing elit. Vitae
-                        quidem tempore tempora reiciendis quaerat modi repellat
-                        voluptate perferendis labore facilis, harum laudantium
-                        voluptatum cum, nesciunt nostrum perspiciatis dolore
-                        quam cupiditate?
-                      </p>
-                      <p>
-                        Necessitatibus beatae modi perspiciatis animi reiciendis
-                        dolores. Lorem ipsum dolor sit amet consectetur
-                        adipisicing elit. Facere ducimus, praesentium asperiores
-                        odit ratione sunt ipsam, neque dolorum libero blanditiis
-                        magnam deleniti molestias, vel in repellendus molestiae
-                        velit laudantium aliquid?odi repellat voluptate
-                        perferendis labore facilis, harum laudantium voluptatum
-                        cum, nesciunt nostrum perspiciatis dolore quam
-                        cupiditate?
-                      </p>
-                      <h6 class="mt-4">Bus Amenities</h6>
-                      <ul class="list">
-                        <li><i class="las la-wifi"></i> Wifi</li>
-                        <li><i class="las la-snowflake"></i> Tv</li>
-                        <li><i class="las la-tv"></i> Charging Port</li>
-                        <li><i class="las la-chair"></i> Sleeper</li>
-                        <li><i class="las la-wifi"></i> Ladies Toilet</li>
-                        <li><i class="las la-wifi"></i> Premium Seats</li>
-                        <li><i class="las la-wifi"></i> Wifi</li>
-                        <li><i class="las la-wifi"></i> Wifi</li>
-                      </ul>
-                    </div>
-                    <div class="close-btn">
-                      <i class="las la-times"></i>
-                    </div>
-                  </div>
-                </div>
+                  </template>
+                </base-modal>
               </div>
               <div
                 class="seat-plan-wrapper"
@@ -734,9 +640,27 @@ export default {
       PickCity: "",
       DropCity: "",
       searchDate: "",
+
+      // Modals
+      busDetails: false,
+      dropModal: false,
+      boadModal: false,
+      cacellation: false,
+
+      // Filters
+      amenFilters: {
+        wifi: true,
+        tv: true,
+        charting: true,
+        sleeper: true,
+      },
     };
   },
   computed: {
+    minDate() {
+      const today = new Date().toISOString().split("T")[0];
+      return today;
+    },
     formatDate() {
       const dateParts = this.searchDate.split("-");
       const day = parseInt(dateParts[2]);
@@ -802,6 +726,46 @@ export default {
     },
   },
   methods: {
+    // Modals
+    toggleModal(id) {
+      if (id == "busDetails") {
+        this.busDetails = !this.busDetails;
+        return;
+      }
+      if (id == "dropModal") {
+        this.dropModal = !this.dropModal;
+        return;
+      }
+      if (id == "boadModal") {
+        this.boadModal = !this.boadModal;
+        return;
+      }
+      if (id == "cacellation") {
+        this.cacellation = !this.cacellation;
+        return;
+      }
+      if (
+        this.busDetails ||
+        this.dropModal ||
+        this.boadModal ||
+        this.cacellation
+      ) {
+        this.busDetails = false;
+        this.dropModal = false;
+        this.boadModal = false;
+        this.cacellation = false;
+      }
+    },
+    amenFilter(event) {
+      const inputId = event.target.id;
+      const isActive = event.target.checked;
+      const updatedFilter = {
+        ...this.amenFilters,
+        [inputId]: isActive,
+      };
+      this.amenFilters = updatedFilter;
+    },
+
     nextDay() {
       const dateParts = this.searchDate.split("-");
       const day = parseInt(dateParts[2]);
@@ -904,11 +868,23 @@ export default {
         this.suggestionsArray2.push(tickets[i].to);
       }
     },
+
+    getAminities() {
+      const tickets = this.$store.getters["ticket/tickets"];
+      for (let i = 0; i < tickets.length; i++) {
+        const amin = this.tickets[i].aminities;
+        for (let i = 0; i < amin.length; i++) {
+          // amin[i].name.trim().toLowerCase();
+          // console.log(amin[i].name.trim().toLowerCase());
+        }
+      }
+    },
   },
 
   created() {
     this.bookedTicket();
     this.getBuses();
+    this.getAminities();
   },
 };
 </script>
