@@ -30,52 +30,8 @@ export default {
           iconLink: "https://facebook.com/mdmunnaahmed2",
         },
       ],
-      popularRoutes: [
-        {
-          from: "Dhaka",
-          to: "Kushtia",
-        },
-        {
-          from: "Chittagong",
-          to: "Kushtia",
-        },
-        {
-          from: "Kushtia",
-          to: "Chittagong",
-        },
-        {
-          from: "Syhlet",
-          to: "Kushtia",
-        },
-        {
-          from: "Kumarkhali",
-          to: "Kushtia",
-        },
-      ],
-      newRoutes: [
-        {
-          from: "Dhaka",
-          to: "Kushtia",
-        },
-        {
-          from: "Chittagong",
-          to: "Kushtia",
-        },
-        {
-          from: "Kushtia",
-          to: "Chittagong",
-        },
-        {
-          from: "Syhlet",
-          to: "Kushtia",
-        },
-        {
-          from: "Kumarkhali",
-          to: "Kushtia",
-        },
-      ],
-      usefulLinks: ["Home", "About", "Bus Reservation", "Cancel Ticket", "Support"],
-      supportLinks: ["Contact Us", "Terms of Service", "Privacy Policy", "Need Help", "Support"],
+      usefulLinks: ["Home", "About", "Bus Reservation", "Cancel Ticket",],
+      supportLinks: ["Contact Us", "Terms of Service", "Privacy Policy", "Need Help",],
     };
   },
   mutations,

@@ -29,12 +29,28 @@
             <div class="footer-widget">
               <h4 class="widget-title">Popular Routes</h4>
               <ul class="footer-links">
-                <li v-for="(popular, index) in popularRoutes" :key="index">
-                  <router-link to=""
-                    ><span>{{ popular.from }}</span
+                <li
+                  class="position-relative"
+                  v-for="(popular, index) in popularRoutes"
+                  :key="index"
+                >
+                  <div>
+                    <form
+                      class="position-absolute start-0 top-0 bottom-0 end-0 bg-transparent"
+                      style="z-index: 2"
+                    >
+                      <input type="hidden" :value="popular.from" />
+                      <input type="hidden" :value="popular.to" />
+                      <input type="hidden" :value="date" />
+                      <button
+                        class="position-absolute start-0 top-0 bottom-0 end-0 bg-transparent h-auto"
+                        @click="goSearch(popular.from, popular.to, date)"
+                      ></button>
+                    </form>
+                    <span>{{ popular.from }}</span
                     ><i class="las la-arrow-right"></i>
                     <span>{{ popular.to }}</span>
-                  </router-link>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -43,12 +59,28 @@
             <div class="footer-widget">
               <h4 class="widget-title">New Routes</h4>
               <ul class="footer-links">
-                <li v-for="(newr, index) in newRoutes" :key="index">
-                  <router-link to=""
-                    ><span>{{ newr.from }}</span
+                <li
+                  class="position-relative"
+                  v-for="(popular, index) in popularRoutes"
+                  :key="index"
+                >
+                  <div>
+                    <form
+                      class="position-absolute start-0 top-0 bottom-0 end-0 bg-transparent"
+                      style="z-index: 2"
+                    >
+                      <input type="hidden" :value="popular.from" />
+                      <input type="hidden" :value="popular.to" />
+                      <input type="hidden" :value="date" />
+                      <button
+                        class="position-absolute start-0 top-0 bottom-0 end-0 bg-transparent h-auto"
+                        @click="goSearch(popular.from, popular.to, date)"
+                      ></button>
+                    </form>
+                    <span>{{ popular.from }}</span
                     ><i class="las la-arrow-right"></i>
-                    <span>{{ newr.to }}</span>
-                  </router-link>
+                    <span>{{ popular.to }}</span>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -84,9 +116,14 @@
   <!-- Footer Section Ends Here -->
 </template>
 
-
 <script>
 export default {
+  data() {
+    return {
+      date: new Date().toISOString().substr(0, 10),
+    };
+  },
+
   computed: {
     footer() {
       return this.$store.getters["footer/footer"];
@@ -95,7 +132,7 @@ export default {
       return this.$store.getters["footer/socialLinks"];
     },
     popularRoutes() {
-      return this.$store.getters["footer/popularRoutes"];
+      return this.$store.getters["route/routes"];
     },
     newRoutes() {
       return this.$store.getters["footer/newRoutes"];
@@ -107,9 +144,18 @@ export default {
       return this.$store.getters["footer/supportLinks"];
     },
   },
+  methods: {
+    goSearch(from, to, date) {
+      const dataToSend = {
+        from: from,
+        to: to,
+        date: date,
+      };
+      this.$router.push({ path: `/bus-ticket/${JSON.stringify(dataToSend)}` });
+    },
+  },
 };
 </script>
-
 
 <style scoped>
 .footer-top {
