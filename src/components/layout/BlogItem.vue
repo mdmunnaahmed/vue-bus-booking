@@ -23,26 +23,33 @@
           </div>
         </li>
         <li>
-          <router-link :to="blogDetailsLink"><i class="las la-share"></i> Share</router-link>
+          <router-link :to="blogDetailsLink"
+            ><i class="las la-share"></i> Share</router-link
+          >
         </li>
       </ul>
     </div>
   </div>
 </template>
 
-
-
 <script>
 export default {
-  props: ['id', "thumb", "title", "date", "pera", "comments", "seen",],
+  props: [
+    "id",
+    "thumb",
+    "title",
+    "date",
+    "pera",
+    "comments",
+    "seen",
+  ],
   computed: {
     blogDetailsLink() {
-      return this.$route.path + '/' + this.id
+      return this.$route.path + "/" + this.id;
     },
   },
 };
 </script>
-
 
 <style scoped>
 .post-item:hover .post-thumb img {

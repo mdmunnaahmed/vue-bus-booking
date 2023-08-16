@@ -616,12 +616,6 @@ export default {
       selectedSeats: [],
       bookedTickets: [[]],
 
-      // Suggestions Data
-      suggestionsArray: [],
-      suggestionsArray2: [],
-      showSuggestions: false,
-      showSuggestions2: false,
-
       // Send Next Page Data
       boadingPoint: 1,
       droppingPoint: 1,
@@ -635,6 +629,12 @@ export default {
       droppingTime: "",
       boadingTime: "",
       fare: "",
+
+      // Suggestions Data
+      suggestionsArray: [],
+      suggestionsArray2: [],
+      showSuggestions: false,
+      showSuggestions2: false,
 
       // Get Search Input
       PickCity: "",
@@ -657,6 +657,9 @@ export default {
     };
   },
   computed: {
+    receivedData() {
+      return JSON.parse(this.$route.params.data || "{}");
+    },
     minDate() {
       const today = new Date().toISOString().split("T")[0];
       return today;
@@ -885,6 +888,9 @@ export default {
     this.bookedTicket();
     this.getBuses();
     this.getAminities();
+    this.PickCity = this.receivedData.from;
+    this.DropCity = this.receivedData.to;
+    this.searchDate = this.receivedData.date;
   },
 };
 </script>

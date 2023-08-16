@@ -1,4 +1,3 @@
-
 <template>
   <!-- Banner Section Starts Here -->
   <section class="banner-section">
@@ -16,50 +15,66 @@
           }}</router-link>
         </div>
         <div class="ticket-form-wrapper">
-          <div class="ticket-header nav-tabs nav border-0">
-            <h4 class="title">{{ banner.formTitle }}</h4>
-            <ul class="ticket-type">
-              <li>
-                <a class="active" href="#one-way" data-bs-toggle="tab"
-                  >One Way</a
-                >
-              </li>
-              <li>
-                <a href="#round-trip" data-bs-toggle="tab">Round Trip</a>
-              </li>
-            </ul>
+          <div class="ticket-header nav-tabs nav border-0 mb-4">
+            <h5 class="title">{{ banner.formTitle }}</h5>
           </div>
           <div class="tab-content">
             <div class="tab-pane fade show active" id="one-way">
-              <form class="ticket-form row g-3 justify-content-center m-0">
+              <form
+                class="ticket-form row g-3 justify-content-center m-0"
+                @submit.prevent="goSearch"
+              >
                 <div class="col-md-6">
-                  <div class="form--group">
+                  <div class="form--group position-relative">
                     <i class="las la-location-arrow"></i>
                     <input
                       type="text"
                       class="form--control"
                       placeholder="Enter Pickup City"
+                      v-model.trim="PickCity"
+                      @input="updateSuggestions"
                     />
+                    <ul v-if="showSuggestions" class="slist">
+                      <li
+                        v-for="(suggestion, index) in uniqueItems"
+                        :key="index"
+                        @click="selectSuggestion(suggestion)"
+                      >
+                        {{ suggestion }}
+                      </li>
+                    </ul>
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <div class="form--group">
+                  <div class="form--group position-relative">
                     <i class="las la-map-marker"></i>
                     <input
                       type="text"
                       class="form--control"
                       placeholder="Enter Destination City"
+                      v-model.trim="DropCity"
+                      @input="updateSuggestions2"
                     />
+                    <ul v-if="showSuggestions2" class="slist">
+                      <li
+                        v-for="(suggestion, index) in uniqueItems2"
+                        :key="index"
+                        @click="selectSuggestion2(suggestion)"
+                      >
+                        {{ suggestion }}
+                      </li>
+                    </ul>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form--group">
                     <i class="las la-calendar-check"></i>
                     <input
-                      type="text"
+                      type="date"
                       id="start-date"
                       class="form--control"
                       placeholder="Departure Date"
+                      v-model.trim="searchDate"
                     />
                   </div>
                 </div>
@@ -70,59 +85,7 @@
                       type="text"
                       id="end-date"
                       class="form--control"
-                      placeholder="Return Date"
-                      disabled
-                    />
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form--group">
-                    <button>Find Tickets</button>
-                  </div>
-                </div>
-              </form>
-            </div>
-            <div class="tab-pane fade" id="round-trip">
-              <form class="ticket-form row g-3 justify-content-center m-0">
-                <div class="col-md-6">
-                  <div class="form--group">
-                    <i class="las la-location-arrow"></i>
-                    <input
-                      type="text"
-                      class="form--control"
-                      placeholder="Enter Pickup City"
-                    />
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form--group">
-                    <i class="las la-map-marker"></i>
-                    <input
-                      type="text"
-                      class="form--control"
-                      placeholder="Enter Destination City"
-                    />
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form--group">
-                    <i class="las la-calendar-check"></i>
-                    <input
-                      type="text"
-                      id="start-date2"
-                      class="form--control"
-                      placeholder="Departure Date"
-                    />
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form--group">
-                    <i class="las la-calendar-check"></i>
-                    <input
-                      type="text"
-                      id="end-date2"
-                      class="form--control"
-                      placeholder="Return Date"
+                      placeholder="Return Date (Optional)"
                     />
                   </div>
                 </div>
@@ -144,21 +107,109 @@
   <!-- Banner Section Ends Here -->
 </template>
 
-
-
-
 <script>
 export default {
+  data() {
+    return {
+      // Suggestions Data
+      suggestionsArray: [],
+      suggestionsArray2: [],
+      showSuggestions: false,
+      showSuggestions2: false,
+
+      // Get Search Input
+      PickCity: "",
+      DropCity: "",
+      searchDate: "",
+    };
+  },
   computed: {
     bannerContents() {
       return this.$store.getters["banner/bannerContents"];
     },
+    uniqueItems() {
+      return [...new Set(this.filteredSuggestions)];
+    },
+    uniqueItems2() {
+      return [...new Set(this.filteredSuggestions2)];
+    },
+
+    filteredSuggestions() {
+      return this.suggestionsArray.filter((suggestion) =>
+        suggestion.toLowerCase().includes(this.PickCity.toLowerCase())
+      );
+    },
+    filteredSuggestions2() {
+      return this.suggestionsArray2.filter((suggestion2) =>
+        suggestion2.toLowerCase().includes(this.DropCity.toLowerCase())
+      );
+    },
+  },
+  methods: {
+    goSearch() {
+      const dataToSend = {
+        from: this.PickCity,
+        to: this.DropCity,
+        date: this.searchDate,
+      };
+      this.$router.push({ path: `/bus-ticket/${JSON.stringify(dataToSend)}` });
+    },
+
+    updateSuggestions() {
+      this.showSuggestions = this.PickCity.length > 0;
+    },
+
+    updateSuggestions2() {
+      this.showSuggestions2 = this.DropCity.length > 0;
+    },
+
+    selectSuggestion(suggestion) {
+      this.PickCity = suggestion;
+      this.showSuggestions = false;
+    },
+
+    selectSuggestion2(suggestion) {
+      this.DropCity = suggestion;
+      this.showSuggestions2 = false;
+    },
+
+    getBuses() {
+      const tickets = this.$store.getters["ticket/tickets"];
+      for (let i = 0; i < tickets.length; i++) {
+        this.suggestionsArray.push(tickets[i].from);
+        this.suggestionsArray2.push(tickets[i].to);
+      }
+    },
+  },
+  created() {
+    this.getBuses();
+    console.log(this.suggestionsArray);
   },
 };
 </script>
 
-
 <style scoped>
+.slist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #ccc;
+  background: #fff;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  z-index: 111;
+}
+
+.slist li {
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.slist li:hover {
+  background-color: #f2f2f2;
+}
+
 .banner-section {
   padding: 100px 0;
   position: relative;
