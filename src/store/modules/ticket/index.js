@@ -10,7 +10,7 @@ export default {
       tickets: [
         {
           id: 1,
-          date: '12-25-2023',
+          date: '8-16-2023',
           bus: 'Volvo Super Delux',
           type: 'AC Sleeper 2 + 2',
           rating: '4.9',

@@ -1,41 +1,45 @@
 <template>
-  <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6">
-    <a href="#0" class="route-item">
-      <div class="route-inner">
-        <div class="route-icon">
-          <i class="las la-map-marker"></i>
-        </div>
-        <div class="route-content">
-          <h5 class="title">{{ pickTitle }}</h5>
-          <ul class="route-to">
-            <li v-for="pickL in pickLocations" :key="pickL">{{ pickL }}</li>
-          </ul>
-        </div>
+  <div class="route-item position-relative">
+    <div class="route-inner">
+      <div class="route-icon">
+        <i class="las la-map-marker"></i>
       </div>
-      <div class="icon">
-        <i class="las la-exchange-alt"></i>
+      <div class="route-content">
+        <h5 class="title">{{ pickTitle }}</h5>
+        <ul class="route-to">
+          <li v-for="pickL in pickLocations" :key="pickL">{{ pickL }}</li>
+        </ul>
       </div>
-      <div class="route-inner">
-        <div class="route-icon">
-          <i class="lar la-dot-circle"></i>
-        </div>
-        <div class="route-content">
-          <h5 class="title">{{ desTitle }}</h5>
-          <ul class="route-to">
-            <li v-for="desL in desLocations" :key="desL">{{ desL }}</li>
-          </ul>
-        </div>
+    </div>
+    <div class="icon">
+      <i class="las la-exchange-alt"></i>
+    </div>
+    <div class="route-inner">
+      <div class="route-icon">
+        <i class="lar la-dot-circle"></i>
       </div>
-    </a>
+      <div class="route-content">
+        <h5 class="title">{{ desTitle }}</h5>
+        <ul class="route-to">
+          <li v-for="desL in desLocations" :key="desL">{{ desL }}</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["pickTitle", "pickLocations", "desTitle", "desLocations"],
+  props: [
+    "pickTitle",
+    "pickLocations",
+    "desTitle",
+    "desLocations",
+    "routeLink",
+    "appleId",
+  ],
 };
 </script>
-
 
 <style scoped>
 .route-item {
