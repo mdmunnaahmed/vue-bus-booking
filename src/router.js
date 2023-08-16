@@ -8,7 +8,7 @@ import TheSuggestions from "./pages/TheSuggestions.vue";
 import FaqPage from '@/pages/FaqPage.vue'
 import ContactPage from '@/pages/ContactPage.vue'
 import TicketPage from '@/pages/TicketPage'
-// import TicketConfirm from '@/pages/TicketConfirm'
+import TicketConfirm from '@/pages/TicketConfirm'
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -35,6 +35,11 @@ const router = createRouter({
     {
       path: "/bus-ticket/:data",
       component: TicketPage,
+      props: true,
+    },
+    {
+      path: "/ticket-details/:data",
+      component: TicketConfirm,
       props: true,
     },
     {

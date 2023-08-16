@@ -88,7 +88,10 @@
                   <i class="las la-bus"></i>
                 </div>
                 <span v-if="filteredTickets" class="result-info"
-                  >{{ filteredTickets.length }} Buses Found</span
+                  >{{ filteredTickets.length }} Bus{{
+                    filteredTickets.length > 1 ? "es" : ""
+                  }}
+                  Found</span
                 >
               </div>
             </div>
@@ -799,7 +802,7 @@ export default {
         totalFare: this.totalFare,
         fare: this.fare,
       };
-      this.$router.push({ path: `/bus-ticket/${JSON.stringify(dataToSend)}` });
+      this.$router.push({ path: `/ticket-details/${JSON.stringify(dataToSend)}` });
     },
     toggleSeats(id) {
       if (this.isSeatVisible == id) {
@@ -888,9 +891,15 @@ export default {
     this.bookedTicket();
     this.getBuses();
     this.getAminities();
-    this.PickCity = this.receivedData.from;
-    this.DropCity = this.receivedData.to;
-    this.searchDate = this.receivedData.date;
+    if (this.receivedData.from) {
+      this.PickCity = this.receivedData.from;
+    }
+    if (this.receivedData.to) {
+      this.DropCity = this.receivedData.to;
+    }
+    if (this.receivedData.date) {
+      this.searchDate = this.receivedData.date;
+    }
   },
 };
 </script>
