@@ -22,7 +22,7 @@
     </template>
   </base-dialog>
 
-  <base-dialog v-if="formIsValid">
+  <base-dialog v-if="formIsValid" @close="closeDialog">
     <template #ico>
       <img
         style="width: 80px; object-fit: contain"
@@ -126,6 +126,22 @@
                     class="form-control"
                     v-model.trim="email"
                   />
+                </div>
+              </li>
+
+              <li class="srch_input_age hide">
+                <div class="form-group">
+                  <label for="page"
+                    >Username<span class="text-info ms-2"
+                      >(optional)</span
+                    ></label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model.trim="username"
+                  />
+                  {{ username }}
                 </div>
               </li>
             </ul>
@@ -322,7 +338,6 @@ export default {
       email: "",
       formNotValid: false,
       formIsValid: false,
-      username: 'Montu',
     };
   },
   computed: {
@@ -374,18 +389,16 @@ export default {
         email: this.email,
 
         // For Dashboard Details
-
         from: this.receivedData.from,
         to: this.receivedData.to,
         bus: this.receivedData.bus,
         boad: this.receivedData.boad,
-        user: this.username,
-        tickets: this.receivedData.seats,
-        fare: this.totalBill,
-        date: this.date,
+        fare: this.receivedData.fare,
+        date: this.receivedData.date,
+        bseats: this.selectedSeats,
       });
-      console.log(this.username);
       this.formIsValid = true;
+      console.log(this.selectedSeats);
     },
     closeDialog() {
       this.formNotValid = false;

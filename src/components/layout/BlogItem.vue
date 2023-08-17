@@ -6,7 +6,7 @@
     <div class="post-content">
       <span class="date"><i class="las la-calendar-check"></i> {{ date }}</span>
       <h4 class="title">
-        <router-link :to="blogDetailsLink">{{ title }}</router-link>
+        <router-link :to="postLink">{{ title }}</router-link>
       </h4>
       <p>
         {{ pera }}
@@ -21,11 +21,6 @@
             <i class="las la-eye"></i>
             {{ seen }}
           </div>
-        </li>
-        <li>
-          <router-link :to="blogDetailsLink"
-            ><i class="las la-share"></i> Share</router-link
-          >
         </li>
       </ul>
     </div>
@@ -42,12 +37,8 @@ export default {
     "pera",
     "comments",
     "seen",
+    "postLink",
   ],
-  computed: {
-    blogDetailsLink() {
-      return this.$route.path + "/" + this.id;
-    },
-  },
 };
 </script>
 

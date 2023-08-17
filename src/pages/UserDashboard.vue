@@ -12,12 +12,11 @@
                 <th>Ticket Number</th>
                 <th>Bus Route</th>
                 <th>Journey Date</th>
-                <th>Pickup Time</th>
                 <th>Booked Seats</th>
                 <th>Fare</th>
                 <th>Action</th>
               </tr>
-              <tr class="">
+              <tr class="bg-transparent">
                 <th></th>
               </tr>
             </thead>
@@ -29,22 +28,20 @@
                   {{ booking.from }} to {{ booking.to }}
                 </td>
                 <td class="date" data-label="Journey Date">
-                  {{ booking.journeyDate }}
+                  {{ booking.date }}
                 </td>
-                <td class="time" data-label="Pickup Time">
-                  {{ booking.time }}
+                <td class="seats" data-label="Booked Seats">
+                  <span v-for="(seat, index) in booking.seats" :key="index">{{
+                    seat
+                  }}</span>
                 </td>
-                <td class="seats" data-label="Booked Seats">E1, E2</td>
-                <td class="fare" data-label="Fare">$ 135</td>
+                <td class="fare" data-label="Fare">$ {{ booking.fare }}</td>
                 <td class="action" data-label="Action">
                   <div class="action-button-wrapper">
                     <a href="#0" class="print"><i class="las la-print"></i></a>
                     <a href="#0" class="del"><i class="las la-trash"></i></a>
                   </div>
                 </td>
-              </tr>
-              <tr>
-                <td></td>
               </tr>
             </tbody>
           </table>
@@ -56,18 +53,6 @@
           </li>
           <li>
             <a href="#0">01</a>
-          </li>
-          <li>
-            <a href="#0">02</a>
-          </li>
-          <li>
-            <a href="#0">03</a>
-          </li>
-          <li>
-            <a href="#0">04</a>
-          </li>
-          <li>
-            <a href="#0">05</a>
           </li>
           <li>
             <a href="#0"><i class="las la-arrow-right"></i></a>
@@ -132,7 +117,7 @@ export default {
 }
 
 .booking-table thead tr:nth-child(even) {
-  background: transparent;
+  /* background: transparent; */
 }
 
 .booking-table thead tr:nth-child(even) th {
@@ -167,15 +152,11 @@ export default {
 }
 
 .booking-table tbody tr:nth-child(even) {
-  background: transparent;
+  /* background: transparent; */
 }
 
 .booking-table tbody tr:nth-child(even) td {
   padding: 6px 0 !important;
-}
-
-.booking-table tbody tr:nth-child(even) {
-  background: transparent;
 }
 
 .booking-table tbody tr .action-button-wrapper {

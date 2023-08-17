@@ -1,18 +1,14 @@
 <template>
+  <inner-banner
+    v-for="con in faqPage"
+    :key="con.slug"
+    title="Popular Packages"
+    slug="Packages"
+    :bg="con.bg"
+  ></inner-banner>
   <!-- Packages Section Starts Here -->
-  <section class="packages-section padding-bottom">
+  <section class="packages-section padding-bottom padding-top">
     <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-6 col-md-10">
-          <section-header
-            class="text-center"
-            v-for="sec in section"
-            :key="sec.title"
-            :title="sec.title"
-            :pera="sec.pera"
-          ></section-header>
-        </div>
-      </div>
       <div class="row g-4 justify-content-center">
         <div
           class="col-xl-3 col-lg-4 col-md-6 col-sm-10"
@@ -36,12 +32,12 @@
 </template>
 
 <script>
-import SectionHeader from "./SectionHeader.vue";
-import PackageItem from "./PackageItem.vue";
+import InnerBanner from "@/components/layout/InnerBanner.vue";
+import PackageItem from "@/components/layout/PackageItem.vue";
 export default {
   components: {
-    SectionHeader,
     PackageItem,
+    InnerBanner,
   },
 
   computed: {
@@ -50,6 +46,9 @@ export default {
     },
     section() {
       return this.$store.getters["packages/section"];
+    },
+    faqPage() {
+      return this.$store.getters["faqs/faqPage"];
     },
   },
 };

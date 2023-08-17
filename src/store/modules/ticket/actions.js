@@ -19,10 +19,9 @@ export default {
             to: payload.to,
             bus: payload.bus,
             boad: payload.boad,
-            user: payload.username,
-            tickets: payload.seats,
-            fare: payload.totalBill,
+            fare: payload.fare,
             date: payload.date,
+            bseats: payload.selectedSeats,
         }
         console.log(data2);
         context.commit('confirmTicket', data2);

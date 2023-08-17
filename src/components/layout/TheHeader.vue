@@ -73,7 +73,7 @@
                   <router-link to="/bus-ticket">Bus Ticket</router-link>
                 </li>
                 <li>
-                  <router-link to="/">Reserve Bus</router-link>
+                  <router-link to="/reserve-bus">Reserve Bus</router-link>
                 </li>
                 <li>
                   <router-link to="/">Cancel Ticket</router-link>

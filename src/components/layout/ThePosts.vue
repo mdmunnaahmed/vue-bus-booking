@@ -20,7 +20,7 @@
           :key="index"
         >
           <blog-item
-            :id="blogDetailsLink + post.id"
+            :postLink="'blog/' + post.id"
             :thumb="post.thumb"
             :title="post.title"
             :pera="post.pera"
@@ -61,9 +61,6 @@ export default {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
       return this.posts.slice(startIndex, endIndex);
-    },
-    blogDetailsLink() {
-      return this.$route.path + "blog/";
     },
   },
 };

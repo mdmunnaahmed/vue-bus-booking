@@ -10,6 +10,9 @@ import ContactPage from '@/pages/ContactPage.vue'
 import TicketPage from '@/pages/TicketPage'
 import TicketConfirm from '@/pages/TicketConfirm'
 import UserDashboard from '@/pages/UserDashboard'
+import PackagePage from '@/pages/PackagePage'
+import TermsConditions from '@/pages/TermsConditions'
+import ReservePage from '@/pages/ReservePage'
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -46,6 +49,18 @@ const router = createRouter({
     {
       path: "/faq",
       component: FaqPage,
+    },
+    {
+      path: "/reserve-bus",
+      component: ReservePage,
+    },
+    {
+      path: "/packages",
+      component: PackagePage,
+    },
+    {
+      path: "/terms-conditions",
+      component: TermsConditions,
     },
     {
       path: "/contact",

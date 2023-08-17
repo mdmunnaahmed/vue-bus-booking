@@ -16,6 +16,7 @@
           :key="index"
         >
           <blog-item
+            :postLink="'blog/' + post.id"
             :thumb="post.thumb"
             :id="post.id"
             :title="post.title"
