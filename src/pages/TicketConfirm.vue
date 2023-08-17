@@ -322,6 +322,7 @@ export default {
       email: "",
       formNotValid: false,
       formIsValid: false,
+      username: 'Montu',
     };
   },
   computed: {
@@ -358,19 +359,32 @@ export default {
   },
   methods: {
     confirmTicket() {
-      if ((this.name == "" || this.age == "" || this.mobile == "")) {
+      if (this.name == "" || this.age == "" || this.mobile == "") {
         this.formNotValid = true;
         this.formIsValid = false;
         return;
       }
       this.formNotValid = false;
       this.$store.dispatch("ticket/confirmTicket", {
+        // For Customer Details
         name: this.name,
         age: this.age,
         gender: this.gender,
         mobile: this.mobile,
         email: this.email,
+
+        // For Dashboard Details
+
+        from: this.receivedData.from,
+        to: this.receivedData.to,
+        bus: this.receivedData.bus,
+        boad: this.receivedData.boad,
+        user: this.username,
+        tickets: this.receivedData.seats,
+        fare: this.totalBill,
+        date: this.date,
       });
+      console.log(this.username);
       this.formIsValid = true;
     },
     closeDialog() {
@@ -380,7 +394,6 @@ export default {
   },
   created() {
     this.selectedSeats = this.seats;
-    // this.logData();
   },
 };
 </script>

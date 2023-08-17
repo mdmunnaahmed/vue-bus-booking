@@ -87,7 +87,7 @@
               <router-link to="#0">Pages</router-link>
               <ul class="sub-menu">
                 <li>
-                  <router-link to="/dashboard">Dashboard</router-link>
+                  <router-link to="/user-dashboard">Dashboard</router-link>
                 </li>
                 <li>
                   <router-link to="/login">Sign In</router-link>

@@ -15,7 +15,6 @@ export default {
 };
 </script>
 
-
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Georama:wght@100;300;400;500;600;700&family=Lato:wght@400;700&display=swap");
 @import url("https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css");
@@ -1129,5 +1128,48 @@ i {
 .social-icons li a i {
   -webkit-transition: all ease 0.3s;
   transition: all ease 0.3s;
+}
+
+.pagination {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+@media (max-width: 991px) {
+  .pagination {
+    margin-top: 40px;
+  }
+}
+
+.pagination li a {
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(31, 31, 31, 0.12);
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin: 5px;
+  font-weight: 500;
+}
+
+.pagination li a.active,
+.pagination li a:hover {
+  background: #0e9e4d;
+  border-color: #0e9e4d;
+  color: #fff;
 }
 </style>
