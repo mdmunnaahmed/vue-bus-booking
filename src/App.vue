@@ -1,7 +1,7 @@
 <template>
-  <the-header></the-header>
+  <the-header v-if="this.$route.path != '/login' && this.$route.path != '/register'"></the-header>
   <router-view></router-view>
-  <the-footer></the-footer>
+  <the-footer v-if="this.$route.path != '/login' && this.$route.path != '/register'"></the-footer>
 </template>
 
 <script>

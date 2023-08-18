@@ -13,6 +13,10 @@ import UserDashboard from '@/pages/UserDashboard'
 import PackagePage from '@/pages/PackagePage'
 import TermsConditions from '@/pages/TermsConditions'
 import ReservePage from '@/pages/ReservePage'
+import CancelTicket from '@/pages/CancelTicket'
+import LogIn from '@/pages/LogIn'
+import SignUp from '@/pages/SignUp'
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -67,6 +71,11 @@ const router = createRouter({
       component: ContactPage,
     },
     {
+      path: "/cancel-ticket",
+      component: CancelTicket,
+    },
+    {
+      name: 'userDashboard',
       path: "/user-dashboard",
       component: UserDashboard,
     },
@@ -74,6 +83,14 @@ const router = createRouter({
       path: "/blog/:id",
       component: BlogDetails,
       props: true,
+    },
+    {
+      path: "/login",
+      component: LogIn,
+    },
+    {
+      path: "/register",
+      component: SignUp,
     },
     {
       path: "/:notFound(.*)",

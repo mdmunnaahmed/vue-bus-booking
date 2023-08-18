@@ -37,9 +37,9 @@
       <div class="text-center">
         <button
           class="btn btn-success w-auto px-5 py-2 h-auto"
-          @click="closeDialog"
+          @click="toDashboard"
         >
-          Okay
+          Go to Dashboard
         </button>
       </div>
     </template>
@@ -245,7 +245,9 @@
               </div>
             </div>
           </div>
-          <button class="btn-md cmn--btn">Confirm Reservation</button>
+          <button class="btn-md cmn--btn" v-if="!isSubmitted">
+            Confirm Reservation
+          </button>
         </form>
       </div>
 
@@ -320,6 +322,7 @@
       </div>
     </div>
   </div>
+  {{ ticketNo }}
 </template>
 
 <script>
@@ -338,6 +341,9 @@ export default {
       email: "",
       formNotValid: false,
       formIsValid: false,
+      isSubmitted: false,
+
+      ticketNo: "",
     };
   },
   computed: {
@@ -373,6 +379,18 @@ export default {
     },
   },
   methods: {
+    toDashboard() {
+      this.$router.push({ name: "userDashboard" });
+    },
+    makeTicketNo() {
+      const tickets = this.$store.getters["ticket/bookings"];
+      const data = tickets[tickets.length - 1].ticketNo;
+      const text = data.slice(0, 2);
+      const number = data.slice(2, data.length);
+      const numberP = parseInt(number) + 1;
+      this.ticketNo = text + numberP;
+    },
+
     confirmTicket() {
       if (this.name == "" || this.age == "" || this.mobile == "") {
         this.formNotValid = true;
@@ -396,9 +414,10 @@ export default {
         fare: this.receivedData.fare,
         date: this.receivedData.date,
         bseats: this.selectedSeats,
+        ticketNo: this.ticketNo,
       });
       this.formIsValid = true;
-      console.log(this.selectedSeats);
+      this.isSubmitted = true;
     },
     closeDialog() {
       this.formNotValid = false;
@@ -407,6 +426,7 @@ export default {
   },
   created() {
     this.selectedSeats = this.seats;
+    this.makeTicketNo();
   },
 };
 </script>

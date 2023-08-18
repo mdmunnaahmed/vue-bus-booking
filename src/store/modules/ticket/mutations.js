@@ -5,4 +5,7 @@ export default {
     confirmTicket(state, payload) {
         state.bookings.push(payload);
     },
+    removeTicket(state, payload) {
+        state.bookings.splice(payload, 1)
+    }
 }

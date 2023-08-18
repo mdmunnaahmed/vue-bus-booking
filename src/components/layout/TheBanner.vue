@@ -10,7 +10,7 @@
       >
         <div class="banner-content">
           <h1 class="title">{{ banner.title }}</h1>
-          <router-link :to="banner.buttonLink" class="cmn--btn">{{
+          <router-link to="/bus-ticket" class="cmn--btn">{{
             banner.buttonName
           }}</router-link>
         </div>

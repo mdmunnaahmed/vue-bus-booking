@@ -23,7 +23,9 @@
             <tbody>
               <tr v-for="(booking, index) in bookings" :key="index">
                 <td class="serial" data-label="Serial">{{ index + 1 }}</td>
-                <td class="ticket-no" data-label="Ticket Number">AF05</td>
+                <td class="ticket-no" data-label="Ticket Number">
+                  #{{ booking.ticketNo }}
+                </td>
                 <td class="route" data-label="Bus Route">
                   {{ booking.from }} to {{ booking.to }}
                 </td>
@@ -31,9 +33,12 @@
                   {{ booking.date }}
                 </td>
                 <td class="seats" data-label="Booked Seats">
-                  <span v-for="(seat, index) in booking.seats" :key="index">{{
-                    seat
-                  }}</span>
+                  <span
+                    class="ms-2"
+                    v-for="(seat, index) in booking.seats"
+                    :key="index"
+                    >{{ seat }}</span
+                  >
                 </td>
                 <td class="fare" data-label="Fare">$ {{ booking.fare }}</td>
                 <td class="action" data-label="Action">
@@ -46,8 +51,7 @@
             </tbody>
           </table>
         </div>
-        {{ bookings }}
-        <ul class="pagination">
+        <ul class="pagination" v-if="!bookings.length >= 10">
           <li>
             <a href="#0"><i class="las la-arrow-left"></i></a>
           </li>

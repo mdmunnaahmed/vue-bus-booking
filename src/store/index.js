@@ -10,6 +10,8 @@ import aboutModule from "./modules/about/index.js";
 import faqsModule from "./modules/faq/index.js";
 import contactModule from "./modules/contact/index.js";
 import ticketModule from './modules/ticket/index.js'
+import reserveModule from "./modules/reserve/index.js";
+import authModule from './modules/auth/index.js'
 
 const store = createStore({
   modules: {
@@ -24,6 +26,8 @@ const store = createStore({
     faqs: faqsModule,
     contact: contactModule,
     ticket: ticketModule,
+    reserve: reserveModule,
+    auth: authModule
   },
 });
 

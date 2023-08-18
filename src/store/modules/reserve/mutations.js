@@ -1,5 +1,5 @@
 export default {
-    reserveBus(state, payload) {
+    addReservation(state, payload) {
         state.reservations.push(payload);
     },
 }

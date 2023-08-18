@@ -76,7 +76,7 @@
                   <router-link to="/reserve-bus">Reserve Bus</router-link>
                 </li>
                 <li>
-                  <router-link to="/">Cancel Ticket</router-link>
+                  <router-link to="/cancel-ticket">Cancel Ticket</router-link>
                 </li>
               </ul>
             </li>
