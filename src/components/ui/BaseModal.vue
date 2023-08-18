@@ -8,17 +8,6 @@
     <section>
       <slot></slot>
     </section>
-
-    <footer>
-      <slot name="actions">
-        <button
-          class="btn btn-danger shadow-lg w-auto px-5 py-2 h-auto"
-          @click="$emit('close')"
-        >
-          Close
-        </button>
-      </slot>
-    </footer>
   </dialog>
 </template>
 

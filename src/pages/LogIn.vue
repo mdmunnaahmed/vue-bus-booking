@@ -1,8 +1,33 @@
 <template>
+  <base-modal v-if="isLoading && !error">
+    <h4 class="text-center">Authenticating</h4>
+    <h6>{{ error }}</h6>
+  </base-modal>
+
+  <base-dialog v-if="error" @close="closeDialog">
+    <template #ico>
+      <img
+        style="width: 60px; object-fit: contain"
+        src="../assets/icon/close.png"
+        alt="icon"
+      />
+    </template>
+    <template #default>
+      <p class="text-center">{{ error }}</p>
+    </template>
+    <template #actions>
+      <div class="text-center">
+        <button
+          class="btn btn-danger shadow-lg w-auto px-5 py-2 h-auto"
+          @click="closeDialog"
+        >
+          Close
+        </button>
+      </div>
+    </template>
+  </base-dialog>
   <!-- Account Section Starts Here -->
-  <section class="account-section bg_img">
-    <span class="spark"></span>
-    <span class="spark2"></span>
+  <section class="account-section">
     <div class="account-wrapper">
       <div class="account-form-wrapper">
         <div class="account-header">
@@ -20,7 +45,7 @@
                 type="text"
                 class="form--control"
                 placeholder="Enter Your Email"
-                v-model.trim="username"
+                v-model.trim="email"
               />
             </div>
           </div>
@@ -36,12 +61,12 @@
               />
             </div>
           </div>
-          <div class="col-lg-12">
+          <!-- <div class="col-lg-12">
             <div class="form--group custom--checkbox">
               <input type="checkbox" id="remembar-me" />
               <label for="remembar-me">Remembar Me</label>
             </div>
-          </div>
+          </div> -->
           <div class="col-md-12">
             <p v-if="!formIsValid">Please enter a valid username & password</p>
             <div class="form--group">
@@ -63,7 +88,43 @@
   <!-- Account Section Ends Here -->
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      email: "",
+      password: "",
+      formIsValid: true,
+      isLoading: false,
+      error: null,
+    };
+  },
+  methods: {
+    async submitForm() {
+      if (this.email == "" || this.password.length < 6) {
+        return false;
+      }
+      this.isLoading = true;
+      try {
+        await this.$store.dispatch("login", {
+          email: this.email,
+          password: this.password,
+        });
+      } catch (err) {
+        this.error = err.message || "Failed to register, Try again.";
+      }
+      this.email = "";
+      this.password = "";
+      this.isLoading = false;
+    },
+  },
 
+  closeDialog() {
+    this.error = null;
+    console.log(this.error);
+  },
+};
+</script>
 
 <style scoped>
 .account-section {

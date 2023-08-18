@@ -1,4 +1,9 @@
 <template>
+  <base-modal v-if="isLoading">
+    
+    <h4 class="text-center">Authenticating</h4>
+    <h6>{{ error }}</h6>
+  </base-modal>
   <!-- Account Section Starts Here -->
   <section class="account-section bg_img">
     <span class="spark"></span>
@@ -86,18 +91,29 @@ export default {
       email: "",
       password: "",
       formIsValid: true,
+      isLoading: false,
+      error: null,
     };
   },
   methods: {
-    submitForm() {
-      if (this.email == "" || this.password.length < 6 || this.name == '') {
+    async submitForm() {
+      if (this.email == "" || this.password.length < 6 || this.name == "") {
         return false;
       }
-      this.$store.dispatch("signup", {
-        name: this.name,
-        email: this.email,
-        password: this.password,
-      });
+      this.isLoading = true;
+      try {
+        await this.$store.dispatch("signup", {
+          name: this.name,
+          email: this.email,
+          password: this.password,
+        });
+      } catch (err) {
+        this.error = err.message || "Failed to register, Try again.";
+      }
+      this.name = "";
+      this.email = "";
+      this.password = "";
+      this.isLoading = false;
     },
   },
 };
