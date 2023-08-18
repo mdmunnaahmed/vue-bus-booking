@@ -6,38 +6,7 @@ export default {
   namespaced: true,
   state() {
     return {
-      bookings: [
-        {
-          ticketNo: 'AF0909',
-          name: "Cannu Mannu",
-          age: 81,
-          gender: "male",
-          mobile: 11892384001,
-          email: "user@mail.com",
-          from: "Jineidah",
-          to: "Chittagong",
-          bus: "Volvo Super Delux",
-          boad: "Kumarkhali Bus Stand 10:15 AM",
-          fare: "115",
-          date: "8-18-2023",
-          seats: ['F1', 'F2', 'F3']
-        },
-        {
-          ticketNo: 'AF1010',
-          name: "Cunni Munni",
-          age: 92,
-          gender: "female",
-          mobile: 11892384001,
-          email: "user@mail.com",
-          from: "Kushtia",
-          to: "Rajbari",
-          bus: "Poltu Super Delux",
-          boad: "Kumarkhali Bus Stand 10:15 AM",
-          fare: "725",
-          date: "8-16-2023",
-          seats: ['A1', 'C2', 'D3']
-        },
-      ],
+      bookings: [],
       tickets: [
         {
           id: 1,

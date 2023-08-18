@@ -26,7 +26,8 @@ export default {
             ticketNo: payload.ticketNo,
         }
 
-        const response = await fetch(`https://bus-booking-155ef-default-rtdb.asia-southeast1.firebasedatabase.app/tickets/${userId}.json`, {
+        const token = context.rootGetters.token;
+        const response = await fetch(`https://bus-booking-155ef-default-rtdb.asia-southeast1.firebasedatabase.app/tickets/${userId}.json?auth=` + token, {
             method: 'POST',
             body: JSON.stringify(data2)
         })
@@ -54,4 +55,40 @@ export default {
             commit('removeTicket', index);
         }
     },
+
+    async loadTickets(context) {
+        const token = context.rootGetters.token;
+        const userId = 'u1'
+
+        const response = await fetch(`https://bus-booking-155ef-default-rtdb.asia-southeast1.firebasedatabase.app/tickets/${userId}.json?auth=` + token,)
+        const responseData = await response.json()
+        if (!response.ok) {
+            // error
+        }
+        const tickets = []
+        for (const key in responseData) {
+            const ticket = {
+                // For Customers
+                name: responseData[key].name,
+                age: responseData[key].age,
+                gender: responseData[key].gender,
+                mobile: responseData[key].mobile,
+                email: responseData[key].email,
+
+                // For Dashboard
+                from: responseData[key].from,
+                to: responseData[key].to,
+                bus: responseData[key].bus,
+                boad: responseData[key].boad,
+                fare: responseData[key].fare,
+                date: responseData[key].date,
+                bseats: responseData[key].selectedSeats,
+                ticketNo: responseData[key].ticketNo,
+            }
+            tickets.push(ticket)
+        }
+        console.log(tickets);
+
+        context.commit('setTicket', tickets);
+    }
 }

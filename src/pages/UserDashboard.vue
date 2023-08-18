@@ -75,9 +75,9 @@ export default {
       return this.$store.getters["ticket/bookings"];
     },
   },
-  //   created() {
-  //     console.log(this.bookings());
-  //   },
+  created() {
+    this.$store.dispatch("ticket/loadTickets");
+  },
 };
 </script>
 

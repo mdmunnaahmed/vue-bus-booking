@@ -7,5 +7,8 @@ export default {
     },
     removeTicket(state, payload) {
         state.bookings.splice(payload, 1)
+    },
+    setTicket(state, payload) {
+        state.bookings = payload
     }
 }
