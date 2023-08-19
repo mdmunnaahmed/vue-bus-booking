@@ -18,7 +18,7 @@ export default {
   },
   computed: {
     didAutoLogout() {
-      return this.$store.getters("didAutoLogout");
+      return this.$store.getters.didAutoLogout;
     },
   },
   watch: {
