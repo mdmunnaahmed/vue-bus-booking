@@ -19,6 +19,18 @@ export default {
       throw error
     }
 
+    const expiresIn = responseData.expiresIn * 24 * 365
+    // const expiresIn = 5000
+    const expirationDate = new Date().getTime() + expiresIn
+
+    localStorage.setItem('token', responseData.idToken);
+    localStorage.setItem('userId', responseData.localId);
+    localStorage.setItem('tokenExpiration', expirationDate);
+
+    timer = setTimeout(function () {
+      context.dispatch('didAutoLogout')
+    }, expiresIn)
+
     context.commit('setUser', {
       token: responseData.idToken,
       userId: responseData.localId,

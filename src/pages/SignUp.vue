@@ -1,9 +1,31 @@
 <template>
-  <base-modal v-if="isLoading">
-    
-    <h4 class="text-center">Authenticating</h4>
+  <base-modal v-if="isLoading && !error">
+    <h4 class="text-center">Creating Account</h4>
     <h6>{{ error }}</h6>
   </base-modal>
+
+  <base-dialog v-if="error" @close="closeDialog">
+    <template #ico>
+      <img
+        style="width: 60px; object-fit: contain"
+        src="../assets/icon/close.png"
+        alt="icon"
+      />
+    </template>
+    <template #default>
+      <p class="text-center">{{ error }}</p>
+    </template>
+    <template #actions>
+      <div class="text-center">
+        <button
+          class="btn btn-danger shadow-lg w-auto px-5 py-2 h-auto"
+          @click="closeDialog"
+        >
+          Close
+        </button>
+      </div>
+    </template>
+  </base-dialog>
   <!-- Account Section Starts Here -->
   <section class="account-section bg_img">
     <span class="spark"></span>
@@ -114,6 +136,12 @@ export default {
       this.email = "";
       this.password = "";
       this.isLoading = false;
+
+      this.$router.replace("/user-dashboard");
+    },
+    closeDialog() {
+      this.error = null;
+      console.log(this.error);
     },
   },
 };

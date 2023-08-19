@@ -1,6 +1,7 @@
 export default {
     async addContact(context, payload) {
-        const userId = 'u1'
+        const token = localStorage.getItem('token')
+        const userId = localStorage.getItem('userId')
         const formData = {
             name: payload.name,
             email: payload.email,
@@ -8,7 +9,7 @@ export default {
             address: payload.address,
             message: payload.message,
         }
-        const response = await fetch(`https://bus-booking-155ef-default-rtdb.asia-southeast1.firebasedatabase.app/contacts/${userId}.json`, {
+        const response = await fetch(`https://bus-booking-155ef-default-rtdb.asia-southeast1.firebasedatabase.app/contacts/${userId}.json?auth=` + token, {
             method: 'POST',
             body: JSON.stringify(formData)
         })

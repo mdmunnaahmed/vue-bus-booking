@@ -6,7 +6,9 @@ export default {
         context.commit('addContact', data);
     },
     async confirmTicket(context, payload) {
-        const userId = 'u1'
+        const token = localStorage.getItem('token')
+        const userId = localStorage.getItem('userId')
+
         const data2 = {
             // For Customers
             name: payload.name,
@@ -26,9 +28,8 @@ export default {
             ticketNo: payload.ticketNo,
         }
 
-        const token = context.rootGetters.token;
         const response = await fetch(`https://bus-booking-155ef-default-rtdb.asia-southeast1.firebasedatabase.app/tickets/${userId}.json?auth=` + token, {
-            method: 'PUT',
+            method: 'POST',
             body: JSON.stringify(data2)
         })
 
@@ -51,16 +52,16 @@ export default {
     },
 
     async loadTickets(context) {
-        // const token = context.rootGetters.token;
-        const userId = 'u1'
+        const token = localStorage.getItem('token')
+        const userId = localStorage.getItem('userId')
 
-        const response = await fetch(`https://bus-booking-155ef-default-rtdb.asia-southeast1.firebasedatabase.app/tickets/${userId}.json`,)
+        const response = await fetch(`https://bus-booking-155ef-default-rtdb.asia-southeast1.firebasedatabase.app/tickets/${userId}.json?auth=` + token,)
         const responseData = await response.json()
         if (!response.ok) {
             // error
         }
         const tickets = []
-        for (const key in responseData) { 
+        for (const key in responseData) {
             const ticket = {
                 id: key,
                 // For Customers 
@@ -82,7 +83,6 @@ export default {
             }
             tickets.push(ticket)
         }
-        console.log(tickets);
         context.commit('setTicket', tickets);
     },
 }
