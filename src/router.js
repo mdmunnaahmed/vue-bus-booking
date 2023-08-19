@@ -46,6 +46,7 @@ const router = createRouter({
       path: "/bus-ticket/:data",
       component: TicketPage,
       props: true,
+
     },
     {
       path: "/ticket-details/:data",
@@ -110,7 +111,7 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach(function (to, from, next) {
+router.beforeEach(function (to, _, next) {
   if (to.meta.requiredAuth && !store.getters.isAuth) {
     next('/login')
   } else if (to.meta.requiredUnAuth && store.getters.isAuth) {

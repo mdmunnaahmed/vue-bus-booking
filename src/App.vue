@@ -1,7 +1,11 @@
 <template>
-  <the-header v-if="this.$route.path != '/login' && this.$route.path != '/register'"></the-header>
+  <the-header
+    v-if="this.$route.path != '/login' && this.$route.path != '/register'"
+  ></the-header>
   <router-view></router-view>
-  <the-footer v-if="this.$route.path != '/login' && this.$route.path != '/register'"></the-footer>
+  <the-footer
+    v-if="this.$route.path != '/login' && this.$route.path != '/register'"
+  ></the-footer>
 </template>
 
 <script>
@@ -11,6 +15,21 @@ export default {
   components: {
     TheHeader,
     TheFooter,
+  },
+  computed: {
+    didAutoLogout() {
+      return this.$store.getters("didAutoLogout");
+    },
+  },
+  watch: {
+    didAutoLogout(oldValue, newVal) {
+      if (newVal && newVal != oldValue) {
+        this.$router.replace("/");
+      }
+    },
+  },
+  created() {
+    this.$store.dispatch("tryLogin");
   },
 };
 </script>

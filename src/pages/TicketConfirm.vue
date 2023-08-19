@@ -377,6 +377,9 @@ export default {
         this.discount
       );
     },
+    isLoggedIn() {
+      return this.$store.getters.isAuth;
+    },
   },
   methods: {
     toDashboard() {
@@ -384,11 +387,14 @@ export default {
     },
     makeTicketNo() {
       const tickets = this.$store.getters["ticket/bookings"];
-      const data = tickets[tickets.length - 1].ticketNo;
-      const text = data.slice(0, 2);
-      const number = data.slice(2, data.length);
-      const numberP = parseInt(number) + 1;
-      this.ticketNo = text + numberP;
+      if (tickets.length) {
+        const data = tickets[tickets.length - 1].ticketNo;
+        const text = data.slice(0, 2);
+        const number = data.slice(2, data.length);
+        const numberP = parseInt(number) + 1;
+        this.ticketNo = text + numberP;
+      }
+      this.ticketNo = "AG0010";
     },
 
     confirmTicket() {
