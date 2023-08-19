@@ -110,6 +110,7 @@ export default {
           email: this.email,
           password: this.password,
         });
+        this.$router.replace('/user-dashboard')
       } catch (err) {
         this.error = err.message || "Failed to register, Try again.";
       }

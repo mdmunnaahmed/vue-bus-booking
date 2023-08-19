@@ -28,7 +28,7 @@ export default {
 
         const token = context.rootGetters.token;
         const response = await fetch(`https://bus-booking-155ef-default-rtdb.asia-southeast1.firebasedatabase.app/tickets/${userId}.json?auth=` + token, {
-            method: 'POST',
+            method: 'PUT',
             body: JSON.stringify(data2)
         })
 
@@ -68,6 +68,7 @@ export default {
         const tickets = []
         for (const key in responseData) {
             const ticket = {
+                id: key,
                 // For Customers
                 name: responseData[key].name,
                 age: responseData[key].age,
@@ -87,8 +88,14 @@ export default {
             }
             tickets.push(ticket)
         }
-        console.log(tickets);
-
         context.commit('setTicket', tickets);
+    },
+
+    logout(context) {
+        context.commit('setUser', {
+            token: null,
+            userId: null,
+            tokenExpiration: null
+        })
     }
 }

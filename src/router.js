@@ -9,13 +9,15 @@ import FaqPage from '@/pages/FaqPage.vue'
 import ContactPage from '@/pages/ContactPage.vue'
 import TicketPage from '@/pages/TicketPage'
 import TicketConfirm from '@/pages/TicketConfirm'
-import UserDashboard from '@/pages/UserDashboard'
 import PackagePage from '@/pages/PackagePage'
 import TermsConditions from '@/pages/TermsConditions'
 import ReservePage from '@/pages/ReservePage'
 import CancelTicket from '@/pages/CancelTicket'
 import LogIn from '@/pages/LogIn'
 import SignUp from '@/pages/SignUp'
+import UserDashboard from '@/pages/UserDashboard'
+
+import store from "./store/index.js";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -78,6 +80,9 @@ const router = createRouter({
       name: 'userDashboard',
       path: "/user-dashboard",
       component: UserDashboard,
+      meta: {
+        requiredAuth: true,
+      }
     },
     {
       path: "/blog/:id",
@@ -87,10 +92,16 @@ const router = createRouter({
     {
       path: "/login",
       component: LogIn,
+      meta: {
+        requiredUnAuth: true,
+      }
     },
     {
       path: "/register",
       component: SignUp,
+      meta: {
+        requiredUnAuth: true,
+      }
     },
     {
       path: "/:notFound(.*)",
@@ -98,5 +109,15 @@ const router = createRouter({
     },
   ],
 });
+
+router.beforeEach(function (to, from, next) {
+  if (to.meta.requiredAuth && !store.getters.isAuth) {
+    next('/login')
+  } else if (to.meta.requiredUnAuth && store.getters.isAuth) {
+    next('/bus-ticket')
+  } else {
+    next()
+  }
+})
 
 export default router;

@@ -99,7 +99,9 @@
                   <router-link to="/packages">Packages</router-link>
                 </li>
                 <li>
-                  <router-link to="/terms-conditions">Terms & Conditions</router-link>
+                  <router-link to="/terms-conditions"
+                    >Terms & Conditions</router-link
+                  >
                 </li>
               </ul>
             </li>
@@ -110,7 +112,22 @@
               <router-link to="/contact">Contact</router-link>
             </li>
           </ul>
-          <router-link to="/buy-tickets" class="cmn--btn btn--sm">Buy Tickets</router-link
+          <div
+            v-if="isLoggedIn"
+            class="d-flex flex-wrap gap-3 align-items-center"
+          >
+            <router-link to="/user-dashboard" class="cmn--btn btn--sm"
+              >Dashboard</router-link
+            >
+            <button
+              @click="logout"
+              class="w-auto h-auto btn-danger cmn--btn py-2 px-3"
+            >
+              Logout
+            </button>
+          </div>
+          <router-link v-if="!isLoggedIn" to="/login" class="cmn--btn btn--sm"
+            >Login</router-link
           ><!-- Menu End -->
         </div>
       </div>
@@ -119,9 +136,20 @@
   <!-- Header Section Ends Here -->
 </template>
 
-
 <script>
-export default {};
+export default {
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.isAuth;
+    },
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch("logout");
+      this.$router.replace("/");
+    },
+  },
+};
 </script>
 
 <style scoped>
