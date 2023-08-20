@@ -112,7 +112,7 @@ export default {
         });
         this.$router.replace('/user-dashboard')
       } catch (err) {
-        this.error = err.message || "Failed to register, Try again.";
+        this.error = err.message || "Failed to login, Try again.";
       }
       this.email = "";
       this.password = "";
