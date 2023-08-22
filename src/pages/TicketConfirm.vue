@@ -322,7 +322,6 @@
       </div>
     </div>
   </div>
-  {{ bookings }}
 </template>
 
 <script>
@@ -389,12 +388,14 @@ export default {
       this.$router.push({ name: "userDashboard" });
     },
     makeTicketNo() {
-      // const data = this.bookings[1].id;
+      // const data = this.bookings[this.bookings.length].id;
       // const text = data.slice(0, 2);
       // const number = data.slice(2, data.length);
       // const numberP = parseInt(number) + 1;
       // this.ticketNo = text + numberP;
-      this.ticketNo = 'asfasf';
+
+      const randomNumber = Math.floor(Math.random() * 100000) + 10000;
+      this.ticketNo = "AF" + randomNumber;
     },
 
     confirmTicket() {

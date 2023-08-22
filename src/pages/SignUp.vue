@@ -76,7 +76,7 @@
           </div>
           <div class="col-lg-12">
             <div class="form--group custom--checkbox">
-              <input type="checkbox" id="remembar-me" />
+              <input type="checkbox" id="remembar-me" @change="toggleCheck" />
               <label for="remembar-me"
                 >Accepting all
                 <router-link to="/terms-conditions"
@@ -87,7 +87,9 @@
           </div>
           <div class="col-md-12">
             <div class="form--group">
-              <button class="account-button">Sign Up</button>
+              <button class="account-button" :disabled="!accept">
+                Sign Up
+              </button>
             </div>
           </div>
           <div class="col-md-12">
@@ -115,6 +117,7 @@ export default {
       formIsValid: true,
       isLoading: false,
       error: null,
+      accept: false,
     };
   },
   methods: {
@@ -143,11 +146,23 @@ export default {
       this.error = null;
       console.log(this.error);
     },
+    toggleCheck(event) {
+      if (event.target.checked) {
+        this.accept = true;
+      } else {
+        this.accept = false;
+      }
+    },
   },
 };
 </script>
 
 <style scoped>
+button[disabled] {
+  pointer-events: non;
+  opacity: 0.4;
+  cursor: no-drop;
+}
 .account-section {
   overflow: hidden;
   position: relative;
