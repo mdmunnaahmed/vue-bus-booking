@@ -119,12 +119,12 @@
             <router-link to="/user-dashboard" class="cmn--btn btn--sm"
               >Dashboard</router-link
             >
-            <button
+            <a href=""
               @click="logout"
-              class="w-auto h-auto btn-danger cmn--btn py-2 px-3"
+              class="text-danger"
             >
               Logout
-            </button>
+            </a>
           </div>
           <router-link v-if="!isLoggedIn" to="/login" class="cmn--btn btn--sm"
             >Login</router-link

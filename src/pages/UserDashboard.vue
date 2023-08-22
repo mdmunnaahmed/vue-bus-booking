@@ -2,7 +2,66 @@
   <!-- Dashboard Section Starts Here -->
   <section class="dashboard-section padding-top padding-bottom">
     <div class="container">
-      <div class="dashboard-wrapper">
+      <ul class="nav-tabs nav mb-5 gap-3 justify-content-end">
+        <li>
+          <router-link class="btn btn-sm" to="user-dashboard/contact-requests"
+            >My Contact Request</router-link
+          >
+        </li>
+        <li>
+          <router-link class="btn btn-sm" to="user-dashboard/my-reservations"
+            >My Reservations</router-link
+          >
+        </li>
+      </ul>
+      <div
+        class="card mb-4"
+        v-if="
+          this.$route.path != '/user-dashboard/update-profile' &&
+          this.$route.path != '/user-dashboard/contact-requests'
+        "
+      >
+        <div class="card-header">
+          <h5 class="d-inline-block me-4">User Info</h5>
+          <router-link to="user-dashboard/update-profile" class="text-primary"
+            >({{ userInfo.length >= 0 ? "Update" : "Edit" }})</router-link
+          >
+        </div>
+        <div class="card-body">
+          <ul>
+            <li>
+              <span style="min-width: 80px">Name</span>
+              <span>:</span>
+              <span class="ms-4">{{ userInfo.name }}</span>
+            </li>
+            <li>
+              <span style="min-width: 80px">Age</span>
+              <span>:</span>
+              <span class="ms-4">{{ userInfo.age }}</span>
+            </li>
+            <li>
+              <span style="min-width: 80px">Gender</span>
+              <span>:</span>
+              <span class="ms-4">{{ userInfo.gender }}</span>
+            </li>
+            <li>
+              <span style="min-width: 80px">Mobile</span>
+              <span>:</span>
+              <span class="ms-4">{{ userInfo.mobile }}</span>
+            </li>
+            <li>
+              <span style="min-width: 80px">Email</span>
+              <span>:</span>
+              <span class="ms-4">{{ userInfo.email }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <router-view></router-view>
+      <div
+        class="dashboard-wrapper"
+        v-if="this.$route.path == '/user-dashboard'"
+      >
         <h4 class="title">Your Booking History</h4>
         <div class="booking-table-wrapper">
           <table class="booking-table">
@@ -14,13 +73,12 @@
                 <th>Journey Date</th>
                 <th>Booked Seats</th>
                 <th>Fare</th>
-                <th>Action</th>
               </tr>
               <tr class="bg-transparent">
                 <th></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody v-if="bookings.length">
               <tr v-for="(booking, index) in bookings" :key="index">
                 <td class="serial" data-label="Serial">{{ index + 1 }}</td>
                 <td class="ticket-no" data-label="Ticket Number">
@@ -41,11 +99,12 @@
                   >
                 </td>
                 <td class="fare" data-label="Fare">$ {{ booking.fare }}</td>
-                <td class="action" data-label="Action">
-                  <div class="action-button-wrapper">
-                    <a href="#0" class="print"><i class="las la-print"></i></a>
-                    <a href="#0" class="del"><i class="las la-trash"></i></a>
-                  </div>
+              </tr>
+            </tbody>
+            <tbody v-else>
+              <tr>
+                <td colspan="6">
+                  <p class="text-center">No bookings found</p>
                 </td>
               </tr>
             </tbody>
@@ -72,16 +131,23 @@
 export default {
   computed: {
     bookings() {
-      return this.$store.getters["ticket/bookings"];
+      return this.$store.getters["ticket/bookings"].slice().reverse();
+    },
+    userInfo() {
+      return this.$store.getters.userInfo;
     },
   },
   created() {
     this.$store.dispatch("ticket/loadTickets");
+    this.$store.dispatch("loadUser");
   },
 };
 </script>
 
 <style scoped>
+.router-link-exact-active {
+  color: #0e9e4d;
+}
 .dashboard-wrapper .title {
   margin-bottom: 25px;
 }

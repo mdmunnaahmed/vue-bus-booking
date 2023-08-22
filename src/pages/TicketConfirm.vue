@@ -122,7 +122,7 @@
                     >Email<span class="text-info ms-2">(optional)</span></label
                   >
                   <input
-                    type="text"
+                    type="email"
                     class="form-control"
                     v-model.trim="email"
                   />
@@ -385,7 +385,7 @@ export default {
   },
   methods: {
     toDashboard() {
-      this.$router.push({ name: "userDashboard" });
+      this.$router.replace('/user-dashboard')
     },
     makeTicketNo() {
       // const data = this.bookings[this.bookings.length].id;
@@ -418,9 +418,9 @@ export default {
         to: this.receivedData.to,
         bus: this.receivedData.bus,
         boad: this.receivedData.boad,
-        fare: this.receivedData.fare,
+        fare: this.totalBill,
         date: this.receivedData.date,
-        bseats: this.selectedSeats,
+        seats: this.selectedSeats,
         ticketNo: this.ticketNo,
       });
       this.formIsValid = true;

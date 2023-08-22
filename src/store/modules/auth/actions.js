@@ -118,4 +118,60 @@ export default {
     context.dispatch("logout");
     context.commit("didAutoLogout");
   },
+
+  async updateUser(context, payload) {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+
+    const userdata = {
+      // For Customers
+      name: payload.name,
+      age: payload.age,
+      gender: payload.gender,
+      mobile: payload.mobile,
+      email: payload.email,
+    };
+
+    const response = await fetch(
+      `https://bus-booking-155ef-default-rtdb.asia-southeast1.firebasedatabase.app/users/${userId}.json?auth=` +
+        token,
+      {
+        method: "PUT",
+        body: JSON.stringify(userdata),
+      }
+    );
+
+    // const responseData = await response.json()
+    if (!response.ok) {
+      // error
+    }
+    context.commit("updateUser", userdata);
+  },
+
+  async loadUser(context) {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+
+    const response = await fetch(
+      `https://bus-booking-155ef-default-rtdb.asia-southeast1.firebasedatabase.app/users/${userId}.json?auth=` +
+        token
+    );
+    const responseData = await response.json();
+    if (!response.ok) {
+      // response
+    }
+    if (responseData == null) {
+      return;
+    }
+    const userInfo = {
+      // For Customers
+      name: responseData.name,
+      age: responseData.age,
+      gender: responseData.gender,
+      mobile: responseData.mobile,
+      email: responseData.email,
+    };
+    console.log(userInfo);
+    context.commit("updateUser", userInfo);
+  },
 };

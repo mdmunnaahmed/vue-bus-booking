@@ -5,17 +5,19 @@ import AboutPage from "./pages/AboutPage.vue";
 import BlogPage from "./pages/BlogPage.vue";
 import BlogDetails from "./pages/BlogDetails.vue";
 import TheSuggestions from "./pages/TheSuggestions.vue";
-import FaqPage from '@/pages/FaqPage.vue'
-import ContactPage from '@/pages/ContactPage.vue'
-import TicketPage from '@/pages/TicketPage'
-import TicketConfirm from '@/pages/TicketConfirm'
-import PackagePage from '@/pages/PackagePage'
-import TermsConditions from '@/pages/TermsConditions'
-import ReservePage from '@/pages/ReservePage'
-import CancelTicket from '@/pages/CancelTicket'
-import LogIn from '@/pages/LogIn'
-import SignUp from '@/pages/SignUp'
-import UserDashboard from '@/pages/UserDashboard'
+import FaqPage from "@/pages/FaqPage.vue";
+import ContactPage from "@/pages/ContactPage.vue";
+import TicketPage from "@/pages/TicketPage";
+import TicketConfirm from "@/pages/TicketConfirm";
+import PackagePage from "@/pages/PackagePage";
+import TermsConditions from "@/pages/TermsConditions";
+import ReservePage from "@/pages/ReservePage";
+import CancelTicket from "@/pages/CancelTicket";
+import LogIn from "@/pages/LogIn";
+import SignUp from "@/pages/SignUp";
+import UserDashboard from "@/pages/UserDashboard";
+import ContactRequests from '@/components/ContactRequests'
+import updateProfile from '@/components/updateProfile'
 
 import store from "./store/index.js";
 
@@ -46,7 +48,6 @@ const router = createRouter({
       path: "/bus-ticket/:data",
       component: TicketPage,
       props: true,
-
     },
     {
       path: "/ticket-details/:data",
@@ -78,12 +79,16 @@ const router = createRouter({
       component: CancelTicket,
     },
     {
-      name: 'userDashboard',
+      name: "userDashboard",
       path: "/user-dashboard",
       component: UserDashboard,
+      children: [
+        { path: "contact-requests", component: ContactRequests },
+        { path: "update-profile", component: updateProfile },
+      ],
       meta: {
         requiredAuth: true,
-      }
+      },
     },
     {
       path: "/blog/:id",
@@ -95,14 +100,14 @@ const router = createRouter({
       component: LogIn,
       meta: {
         requiredUnAuth: true,
-      }
+      },
     },
     {
       path: "/register",
       component: SignUp,
       meta: {
         requiredUnAuth: true,
-      }
+      },
     },
     {
       path: "/:notFound(.*)",
@@ -113,12 +118,12 @@ const router = createRouter({
 
 router.beforeEach(function (to, _, next) {
   if (to.meta.requiredAuth && !store.getters.isAuth) {
-    next('/login')
+    next("/login");
   } else if (to.meta.requiredUnAuth && store.getters.isAuth) {
-    next('/bus-ticket')
+    next("/bus-ticket");
   } else {
-    next()
+    next();
   }
-})
+});
 
 export default router;
