@@ -48,6 +48,18 @@
   <div class="container py-5 mb-3 mt-3">
     <div class="row justify-content-center gy-4">
       <div class="col-lg-6">
+        <div class="form-check">
+          <label for="uk" class="form-check-label"
+            >Biil to my Default Address</label
+          >
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="uk"
+            @change="userInfo"
+          />
+          <small v-if="notDefault" class="text-danger d-block">You didn't update your KYC</small>
+        </div>
         <form @submit.prevent="confirmTicket">
           <div class="formbody">
             <ul class="list-inline clearfix">
@@ -60,6 +72,7 @@
                     placeholder="Enter Full Name"
                     maxlength="25"
                     v-model.trim="name"
+                    :disabled="billingAddr"
                   />
                 </div>
               </li>
@@ -72,6 +85,7 @@
                     placeholder="Age"
                     maxlength="2"
                     v-model.number="age"
+                    :disabled="billingAddr"
                   />
                 </div>
               </li>
@@ -86,6 +100,7 @@
                     value="male"
                     checked="checked"
                     v-model="gender"
+                    :disabled="billingAddr"
                   />
                   M
                 </label>
@@ -96,6 +111,7 @@
                     id="optfemale"
                     value="female"
                     v-model="gender"
+                    :disabled="billingAddr"
                   />
                   F
                 </label>
@@ -113,6 +129,7 @@
                     class="form-control"
                     maxlength="25"
                     v-model.number="mobile"
+                    :disabled="billingAddr"
                   />
                 </div>
               </li>
@@ -125,23 +142,8 @@
                     type="email"
                     class="form-control"
                     v-model.trim="email"
+                    :disabled="billingAddr"
                   />
-                </div>
-              </li>
-
-              <li class="srch_input_age hide">
-                <div class="form-group">
-                  <label for="page"
-                    >Username<span class="text-info ms-2"
-                      >(optional)</span
-                    ></label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    v-model.trim="username"
-                  />
-                  {{ username }}
                 </div>
               </li>
             </ul>
@@ -321,6 +323,7 @@
         </aside>
       </div>
     </div>
+    {{ user }}
   </div>
 </template>
 
@@ -343,6 +346,8 @@ export default {
       isSubmitted: false,
 
       ticketNo: "",
+      billingAddr: false,
+      notDefault: false,
     };
   },
   computed: {
@@ -385,7 +390,7 @@ export default {
   },
   methods: {
     toDashboard() {
-      this.$router.replace('/user-dashboard')
+      this.$router.replace("/user-dashboard");
     },
     makeTicketNo() {
       // const data = this.bookings[this.bookings.length].id;
@@ -430,9 +435,32 @@ export default {
       this.formNotValid = false;
       this.formIsValid = false;
     },
+    userInfo(event) {
+      if (!this.$store.getters.userInfo.length) {
+        this.notDefault = true;
+        return;
+      }
+      this.notDefault = false;
+      if (event.target.checked) {
+        this.name = this.$store.getters.userInfo.name;
+        this.age = this.$store.getters.userInfo.age;
+        this.gender = this.$store.getters.userInfo.gender;
+        this.mobile = this.$store.getters.userInfo.mobile;
+        this.email = this.$store.getters.userInfo.email;
+        this.billingAddr = true;
+      } else {
+        this.billingAddr = false;
+        this.name = "";
+        this.age = "";
+        this.gender = "";
+        this.mobile = "";
+        this.email = "";
+      }
+    },
   },
   created() {
     this.$store.dispatch("ticket/loadTickets");
+    this.$store.dispatch("loadUser");
     this.selectedSeats = this.seats;
     this.makeTicketNo();
   },

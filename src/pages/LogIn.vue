@@ -110,7 +110,7 @@ export default {
           email: this.email,
           password: this.password,
         });
-        this.$router.replace('/user-dashboard')
+        this.$router.replace("/user-dashboard");
       } catch (err) {
         this.error = err.message || "Failed to login, Try again.";
       }
@@ -118,11 +118,9 @@ export default {
       this.password = "";
       this.isLoading = false;
     },
-  },
-
-  closeDialog() {
-    this.error = null;
-    console.log(this.error);
+    closeDialog() {
+      this.error = null;
+    },
   },
 };
 </script>
