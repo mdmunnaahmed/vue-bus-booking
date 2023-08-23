@@ -4,7 +4,6 @@ import HomePage from "./pages/HomePage.vue";
 import AboutPage from "./pages/AboutPage.vue";
 import BlogPage from "./pages/BlogPage.vue";
 import BlogDetails from "./pages/BlogDetails.vue";
-import TheSuggestions from "./pages/TheSuggestions.vue";
 import FaqPage from "@/pages/FaqPage.vue";
 import ContactPage from "@/pages/ContactPage.vue";
 import TicketPage from "@/pages/TicketPage";
@@ -36,10 +35,6 @@ const router = createRouter({
     {
       path: "/blog",
       component: BlogPage,
-    },
-    {
-      path: "/suggestions",
-      component: TheSuggestions,
     },
     {
       path: "/bus-ticket",

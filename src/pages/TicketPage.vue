@@ -1,6 +1,12 @@
 <template>
   <!-- Ticket Search Starts -->
-  <div class="ticket-search-bar bg_img padding-top">
+  <div class="ticket-search-bar padding-top">
+    <img
+      src="../assets/bg/inner.jpg"
+      alt="inner"
+      class="position-absolute start-0 end-0 w-100"
+      style="z-index: -1; top: -150%"
+    />
     <div class="container">
       <div class="bus-search-header">
         <form
@@ -802,7 +808,9 @@ export default {
         totalFare: this.totalFare,
         fare: this.fare,
       };
-      this.$router.push({ path: `/ticket-details/${JSON.stringify(dataToSend)}` });
+      this.$router.push({
+        path: `/ticket-details/${JSON.stringify(dataToSend)}`,
+      });
     },
     toggleSeats(id) {
       if (this.isSeatVisible == id) {
@@ -993,7 +1001,7 @@ export default {
   padding: 40px 30px;
   border-radius: 10px 10px 0 0;
   background: #fff;
-  margin-bottom: 50px;
+  margin-bottom: 48px;
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;

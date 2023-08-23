@@ -154,10 +154,12 @@ export default {
 
 <style scoped>
 .header {
+  position: relative;
   width: 100%;
   z-index: 999;
   -webkit-transition: all ease 0.3s;
   transition: all ease 0.3s;
+  background: #fff;
 }
 
 .header.sticky {
