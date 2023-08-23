@@ -249,6 +249,9 @@
               </div>
             </div>
           </div>
+          <p class="text-danger" v-if="!isLoggedIn">
+            Please Log in or Create an Account.
+          </p>
           <button class="btn-md cmn--btn" v-if="!isSubmitted">
             Confirm Reservation
           </button>
@@ -319,7 +322,7 @@
               class="d-flex justify-content-between align-items-center py-0 mt-2 text--base text-end"
               style="font-size: 18px"
             >
-              Total <span>{{ totalBill }}</span>
+              Total $<span>{{ totalBill }}</span>
             </li>
           </ul>
         </aside>
@@ -350,6 +353,8 @@ export default {
       ticketNo: "",
       billingAddr: false,
       notDefault: false,
+
+      notLoggedIn: true,
     };
   },
   computed: {
@@ -404,13 +409,25 @@ export default {
       const randomNumber = Math.floor(Math.random() * 100000) + 10000;
       this.ticketNo = "AF" + randomNumber;
     },
+    token() {
+      return this.$store.getters.token;
+    },
 
     confirmTicket() {
-      if (this.name == "" || this.age == "" || this.mobile == "") {
+      if (
+        this.name == "" ||
+        this.age == "" ||
+        this.mobile == "" ||
+        !this.isLoggedIn
+      ) {
         this.formNotValid = true;
         this.formIsValid = false;
+        if (!this.isLoggedIn) {
+          this.isLoggedIn = false;
+        }
         return;
       }
+      this.isLoggedIn = true;
       this.formNotValid = false;
       this.$store.dispatch("ticket/confirmTicket", {
         // For Customer Details

@@ -17,11 +17,12 @@ import SignUp from "@/pages/SignUp";
 import UserDashboard from "@/pages/UserDashboard";
 import ContactRequests from "@/components/ContactRequests";
 import updateProfile from "@/components/updateProfile";
-import MyReservations from '@/pages/MyReservations'
+import MyReservations from "@/pages/MyReservations";
 
 import store from "./store/index.js";
 
 const router = createRouter({
+  mode: "history",
   history: createWebHistory(),
   routes: [
     {
