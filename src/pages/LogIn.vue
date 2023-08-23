@@ -1,8 +1,7 @@
 <template>
-  <base-modal v-if="isLoading && !error">
-    <h4 class="text-center">Authenticating</h4>
-    <h6>{{ error }}</h6>
-  </base-modal>
+  <div class="spinner-holder" v-if="isLoading && !error">
+    <base-spinner > </base-spinner>
+  </div>
 
   <base-dialog v-if="error" @close="closeDialog">
     <template #ico>
@@ -126,6 +125,18 @@ export default {
 </script>
 
 <style scoped>
+.spinner-holder {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: #fff;
+  z-index: 11111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .account-section {
   overflow: hidden;
   position: relative;
