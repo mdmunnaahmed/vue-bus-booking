@@ -1,6 +1,6 @@
 <template>
   <div class="booking-table-wrapper">
-    <h5 class="mb-4">My Contact Requests</h5>
+    <h5 class="mb-4">My Reservations</h5>
     <base-spinner v-if="isLoading"></base-spinner>
     <table class="booking-table" v-else>
       <thead>

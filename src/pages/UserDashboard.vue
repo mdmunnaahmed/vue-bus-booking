@@ -2,7 +2,10 @@
   <!-- Dashboard Section Starts Here -->
   <section class="dashboard-section padding-top padding-bottom">
     <div class="container">
-      <ul class="nav-tabs nav mb-5 gap-3 justify-content-end">
+      <ul
+        class="nav-tabs nav mb-5 gap-3 justify-content-end"
+        v-if="this.$route.path == '/user-dashboard'"
+      >
         <li>
           <router-link class="btn btn-sm" to="user-dashboard/contact-requests"
             >My Contact Request</router-link
@@ -14,11 +17,19 @@
           >
         </li>
       </ul>
+      <ul class="nav-tabs nav mb-5 gap-3 justify-content-end" v-else>
+        <li>
+          <span class="btn btn-sm" @click="goBack"
+            ><i class="las la-angle-left"></i> Go Back to Dashboard</span
+          >
+        </li>
+      </ul>
       <div
         class="card mb-4"
         v-if="
           this.$route.path != '/user-dashboard/update-profile' &&
-          this.$route.path != '/user-dashboard/contact-requests'
+          this.$route.path != '/user-dashboard/contact-requests' &&
+          this.$route.path != '/user-dashboard/my-reservations'
         "
       >
         <div class="card-header">
@@ -78,7 +89,7 @@
                 <th></th>
               </tr>
             </thead>
-            <tbody v-if="bookings.length">
+            <tbody v-if="bookings.length && !isLoading">
               <tr v-for="(booking, index) in bookings" :key="index">
                 <td class="serial" data-label="Serial">{{ index + 1 }}</td>
                 <td class="ticket-no" data-label="Ticket Number">
@@ -101,7 +112,7 @@
                 <td class="fare" data-label="Fare">$ {{ booking.fare }}</td>
               </tr>
             </tbody>
-            <tbody v-else>
+            <tbody v-if="!bookings.length && !isLoading">
               <tr>
                 <td colspan="6">
                   <p class="text-center">No bookings found</p>
@@ -109,6 +120,10 @@
               </tr>
             </tbody>
           </table>
+
+          <div class="text-center">
+            <base-spinner v-if="isLoading" class="mx-auto"></base-spinner>
+          </div>
         </div>
         <ul class="pagination" v-if="!bookings.length >= 10">
           <li>
@@ -129,6 +144,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      isLoading: true,
+    };
+  },
   computed: {
     bookings() {
       return this.$store.getters["ticket/bookings"].slice().reverse();
@@ -136,10 +156,20 @@ export default {
     userInfo() {
       return this.$store.getters.userInfo;
     },
+    host() {
+      return window.location.hostname;
+    },
   },
-  created() {
-    this.$store.dispatch("ticket/loadTickets");
+  methods: {
+    goBack() {
+      this.$router.go(-1); // Go back one step in history
+    },
+  },
+  async created() {
     this.$store.dispatch("loadUser");
+    this.isLoading = true;
+    await this.$store.dispatch("ticket/loadTickets");
+    this.isLoading = false;
   },
 };
 </script>
@@ -174,5 +204,4 @@ export default {
 .dashboard-section .pagination li a:hover {
   background: #0e9e4d;
 }
-
 </style>

@@ -43,12 +43,11 @@
     </template>
     <template #actions>
       <div class="text-center">
-        <button
-          class="btn btn-success w-auto px-5 py-2 h-auto"
-          @click="closeDialog"
+        <router-link to="/user-dashboard/my-reservations"
+          class="btn btn-success w-auto px-5 py-2 h-auto lh-1 "
         >
-          Okay
-        </button>
+          Go to Reservations
+        </router-link>
       </div>
     </template>
   </base-dialog>

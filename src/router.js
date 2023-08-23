@@ -16,8 +16,9 @@ import CancelTicket from "@/pages/CancelTicket";
 import LogIn from "@/pages/LogIn";
 import SignUp from "@/pages/SignUp";
 import UserDashboard from "@/pages/UserDashboard";
-import ContactRequests from '@/components/ContactRequests'
-import updateProfile from '@/components/updateProfile'
+import ContactRequests from "@/components/ContactRequests";
+import updateProfile from "@/components/updateProfile";
+import MyReservations from '@/pages/MyReservations'
 
 import store from "./store/index.js";
 
@@ -83,8 +84,12 @@ const router = createRouter({
       path: "/user-dashboard",
       component: UserDashboard,
       children: [
-        { path: "contact-requests", component: ContactRequests },
+        {
+          path: "contact-requests",
+          component: ContactRequests,
+        },
         { path: "update-profile", component: updateProfile },
+        { path: "my-reservations", component: MyReservations },
       ],
       meta: {
         requiredAuth: true,
