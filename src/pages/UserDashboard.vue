@@ -80,6 +80,7 @@
               <tr>
                 <th>Serial</th>
                 <th>Ticket Number</th>
+                <th>Bus</th>
                 <th>Bus Route</th>
                 <th>Journey Date</th>
                 <th>Booked Seats</th>
@@ -94,6 +95,9 @@
                 <td class="serial" data-label="Serial">{{ index + 1 }}</td>
                 <td class="ticket-no" data-label="Ticket Number">
                   #{{ booking.ticketNo }}
+                </td>
+                <td class="ticket-no" data-label="Bus">
+                  {{ booking.bus }}
                 </td>
                 <td class="route" data-label="Bus Route">
                   {{ booking.from }} to {{ booking.to }}

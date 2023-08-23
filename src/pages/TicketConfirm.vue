@@ -58,7 +58,9 @@
             id="uk"
             @change="userInfo"
           />
-          <small v-if="notDefault" class="text-danger d-block">You didn't update your KYC</small>
+          <small v-if="notDefault" class="text-danger d-block"
+            >You didn't update your KYC</small
+          >
         </div>
         <form @submit.prevent="confirmTicket">
           <div class="formbody">
@@ -436,7 +438,7 @@ export default {
       this.formIsValid = false;
     },
     userInfo(event) {
-      if (!this.$store.getters.userInfo.length) {
+      if (this.$store.getters.userInfo.length <= 0) {
         this.notDefault = true;
         return;
       }

@@ -10,34 +10,56 @@
           <th>Email</th>
           <th>Address</th>
           <th>Mobile</th>
-          <th>Message</th>
+          <th>Start Day</th>
+          <th>End Day</th>
+          <th>Number of Bus</th>
+          <th>Number of Seats</th>
+          <th>Boading Point</th>
+          <th>Dropping Point</th>
         </tr>
         <tr class="bg-transparent">
           <th></th>
         </tr>
       </thead>
-      <tbody v-if="contacts.length">
-        <tr v-for="(contact, index) in contacts" :key="index">
+      <tbody v-if="reservations.length">
+        <tr v-for="(reservation, index) in reservations" :key="index">
           <td class="serial" data-label="Serial">{{ index + 1 }}</td>
           <td class="route" data-label="Name">
-            {{ contact.name }}
+            {{ reservation.fullName }}
           </td>
-          <td class="ticket-no" data-label="Email">
-            {{ contact.email }}
+          <td data-label="Email">
+            {{ reservation.email }}
           </td>
-          <td class="ticket-no" data-label="Address">
-            {{ contact.address }}
+          <td data-label="Address">
+            {{ reservation.fullAddr }}
           </td>
-          <td class="fare" data-label="Mobile">{{ contact.mobile }}</td>
-          <td class="date" data-label="Message">
-            {{ contact.message }}
+          <td data-label="Mobile">
+            {{ reservation.phoneNumber }}
+          </td>
+          <td data-label="Start Day">
+            {{ reservation.startDay }}
+          </td>
+          <td data-label="End Day">
+            {{ reservation.endDay }}
+          </td>
+          <td data-label="Number of Bus">
+            {{ reservation.numberOfBus }}
+          </td>
+          <td data-label="Number of Seats">
+            {{ reservation.numberOfSeats }}
+          </td>
+          <td data-label="Boading Point">
+            {{ reservation.boadingPoint }}
+          </td>
+          <td data-label="Dropping Point">
+            {{ reservation.droppingPoint }}
           </td>
         </tr>
       </tbody>
       <tbody v-else>
         <tr>
           <td colspan="6">
-            <p class="text-center">No contacts found</p>
+            <p class="text-center">No reservations found</p>
           </td>
         </tr>
       </tbody>
@@ -53,13 +75,13 @@ export default {
     };
   },
   computed: {
-    contacts() {
-      return this.$store.getters["contact/contacts"];
+    reservations() {
+      return this.$store.getters["reserve/reservations"];
     },
   },
   async created() {
     this.isLoading = true;
-    await this.$store.dispatch("contact/loadContacts");
+    await this.$store.dispatch("reserve/loadReservations");
     this.isLoading = false;
   },
 };
