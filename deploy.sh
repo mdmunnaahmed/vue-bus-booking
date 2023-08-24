@@ -9,4 +9,4 @@ git add -A
 git commit -m "new deployment"
 git push -f https://github.com/mdmunnaahmed/vue-bus-booking.git main:main
 
-cd -
+firebase deploy --only hosting
